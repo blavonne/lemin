@@ -38,6 +38,27 @@ static int	is_comment(char *line)
 	return (comment);
 }
 
+static int	is_command(char *line)
+{
+	int		i;
+
+	i = 0;
+	if (line)
+	{
+		while (line[i])
+		{
+			if (i == 1 && line[1] == '#' && line[0] == '#')
+				if (!(ft_strequ("##start", line)) &&\
+				!(ft_strequ("##end", line)))
+					return (1);
+			i++;
+		}
+	}
+	else
+		error(EMPTY);
+	return (0);
+}
+
 void		read_input(int argc, char **argv, t_input *input)
 {
 	int		fd;
@@ -49,7 +70,7 @@ void		read_input(int argc, char **argv, t_input *input)
 	fd = (argc == 1) ? 0 : open(argv[1], O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (is_comment(line))
+		if (is_comment(line) || is_command(line))
 			ft_strdel(&line);
 		else if (input->expected == 0)
 			read_ants_count(line, input);

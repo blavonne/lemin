@@ -11,7 +11,6 @@
 # define NEG		4
 # define EMPTY		5
 # define MEMORY		6
-# define COUNT		10
 # define START		11
 # define ROOM		12
 # define END		13
@@ -19,7 +18,6 @@
 # define S_ROOM		15
 # define E_ROOM		16
 # define VECTOR		511
-# define STR		20
 
 typedef struct s_input t_input;
 typedef struct s_room t_room;
@@ -57,4 +55,5 @@ t_room			*create_room(void);
 void			read_link(char *line, t_vector *rooms);
 int				push_in_vector(t_vector **v, void *data, size_t size, int type);
 void			clean_vector(t_vector **v);
+
 #endif

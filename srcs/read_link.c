@@ -13,6 +13,10 @@ static void		check_link(int left, int right, t_room **room, char *line)
 		error(LINK);
 }
 
+/*
+** this func checks that name of link exists
+*/
+
 void			read_link(char *line, t_vector *rooms)
 {
 	int		left;
