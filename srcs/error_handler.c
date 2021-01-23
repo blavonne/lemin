@@ -17,7 +17,7 @@ void	error(int reason)
 	else if (reason == END)
 		ft_putstr_fd("Expected ##end, got something else.\n", 2);
 	else if (reason == ROOM)
-		ft_putstr_fd("Incorrect rooms name or wrong instructions order.\n", 2);
+		ft_putstr_fd("Incorrect rooms name/coords/instructions order.\n", 2);
 	else if (reason == MEMORY)
 		ft_putstr_fd("Memory error (malloc).\n", 2);
 	else if (reason == LINK)
