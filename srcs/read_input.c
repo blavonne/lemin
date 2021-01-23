@@ -59,6 +59,8 @@ static int	is_command(char *line)
 	return (0);
 }
 
+//старт необязательно идёт первым, возможен любой порядок
+
 void		read_input(int argc, char **argv, t_input *input)
 {
 	int		fd;
@@ -72,14 +74,15 @@ void		read_input(int argc, char **argv, t_input *input)
 	{
 		if (is_comment(line) || is_command(line))
 			ft_strdel(&line);
-		else if (input->expected == 0)
+		else if (input->expected == COUNT)
 			read_ants_count(line, input);
-		else if (input->expected == START)
-			read_cmd(line, input);
-		else if(input->expected == LINK)
+		else if(input->expected & LINK)
+		{
 			read_link(line, input->rooms);
-		else if (input->expected == ROOM || input->expected == S_ROOM ||\
-				input->expected == E_ROOM)
+			input->expected = input->expected & LINK;
+		}
+		else if (input->expected & ANY || input->expected == E_ROOM ||\
+		input->expected == S_ROOM)
 			read_room(line, input);
 		ft_strdel(&line);
 	}

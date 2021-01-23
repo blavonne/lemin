@@ -40,7 +40,7 @@ int			main(int argc, char **argv)
 
 	ft_bzero(&input, sizeof(input));
 	read_input(argc, argv, &input);
-//	check_input(&input);
+	check_input(&input);
 	print_input(input);
 	clean_vector(&input.rooms);
 	return 0;

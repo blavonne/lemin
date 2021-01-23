@@ -12,12 +12,12 @@ static void		add_room(t_input *input, char *name, int x, int y)
 	if (input->expected == S_ROOM)
 	{
 		room->is_start = 1;
-		input->expected = ROOM;
+		input->expected = END | ROOM;
 	}
 	if (input->expected == E_ROOM)
 	{
 		room->is_end = 1;
-		input->expected = LINK;
+		input->expected = LINK | ROOM | START;
 	}
 	if (!push_in_vector(&input->rooms, (void *)room, sizeof(t_room *), ROOM))
 		error(MEMORY);
@@ -63,14 +63,16 @@ void			read_room(char *line, t_input *input)
 	i = 0;
 	if (!(split = ft_strsplit(line, ' ')))
 		error(EMPTY);
-	if (split[0] && ft_strequ(split[0], "##end") && !split[1])
+	if (split[0] && (ft_strequ(split[0], "##end") || ft_strequ(split[0],\
+	"##start")) && !split[1])
 	{
-		input->expected = E_ROOM;
+		input->expected = (ft_strequ(split[0], "##end")) ? E_ROOM : S_ROOM;
 		clean_two_dim((void ***)&split);
 		return ;
 	}
-	else if (ft_strequ(split[0], "##end") && split[1])
-		error(END);
+	else if ((ft_strequ(split[0], "##end") || ft_strequ(split[0], "##start"))\
+	&& split[1])
+		error(START);
 	while (split[i])
 	{
 		(i == 0) ? check_name(split[0]) : 0;
