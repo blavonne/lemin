@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "includes/lemin.h"
+#include "lemin.h"
 
 void		print_vector(t_vector *vector)
 {
