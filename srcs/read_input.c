@@ -17,10 +17,8 @@ static int	check_file(char *file)
 static int	is_comment(char *line)
 {
 	int		i;
-	int		comment;
 
 	i = 0;
-	comment = 1;
 	if (line)
 	{
 		while (line[i])
@@ -29,13 +27,13 @@ static int	is_comment(char *line)
 			line[0] == '#'))
 				return (0);
 			else if (i == 1 && line[1] != '#' && line[0] == '#')
-				return (comment);
+				return (1);
 			i++;
 		}
 	}
 	else
 		error(EMPTY);
-	return (comment);
+	return (0);
 }
 
 static int	is_command(char *line)
