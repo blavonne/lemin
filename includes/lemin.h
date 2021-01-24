@@ -15,6 +15,8 @@
 
 # define S_ROOM		0b0000000100000000
 # define E_ROOM		0b0000000010000000
+# define DUPS		0b0000000001000000
+# define INT		0b0000000000100000
 # define VECTOR		511
 
 # define COUNT		0b0000000000000000
@@ -40,6 +42,8 @@ struct			s_room
 	char		*name;
 	int			coords[2];
 	t_vector	*ways;
+	t_vector	*near;
+	int			order;
 	int			is_start;
 	int			is_end;
 	int			visited;

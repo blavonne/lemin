@@ -3,6 +3,7 @@
 static void		add_room(t_input *input, char *name, int x, int y)
 {
 	t_room	*room;
+	t_room	**tmp;
 
 	room = create_room();
 	if (!(room->name = ft_strdup(name)))
@@ -21,6 +22,8 @@ static void		add_room(t_input *input, char *name, int x, int y)
 	}
 	if (!push_in_vector(&input->rooms, (void *)room, sizeof(t_room *), ROOM))
 		error(MEMORY);
+	tmp = input->rooms->data;
+	tmp[input->rooms->next - 1]->order = input->rooms->next - 1;
 }
 
 static void		check_integer(char *line)

@@ -22,5 +22,7 @@ void	error(int reason)
 		ft_putstr_fd("Error in link area.\n", 2);
 	else if (reason == NOWAY)
 		ft_putstr_fd("No way to end.\n", 2);
+	else if (reason == DUPS)
+		ft_putstr_fd("Error: room duplicate or the same coords.\n", 2);
 	exit(1);
 }

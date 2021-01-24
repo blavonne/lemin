@@ -11,7 +11,7 @@ void		clean_vector(t_vector **v)
 	{
 		free(room[i]->name);
 		room[i]->name = NULL;
-		free(room[i]->ways->data);
+		room[i]->ways ? free(room[i]->ways->data) : 0;
 		free(room[i]->ways);
 		room[i]->ways = NULL;
 		free(room[i]);

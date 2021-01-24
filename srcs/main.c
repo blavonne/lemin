@@ -13,16 +13,35 @@ void		print_vector(t_vector *vector)
 	while (i < vector->next)
 	{
 		j = 0;
-		related = room[i]->ways->data;
-		printf("Name: %s (%i, %i)\n", room[i]->name, room[i]->coords[0],\
-		room[i]->coords[1]);
-		printf("Related with: ");
-		while (j < room[i]->ways->next)
+		printf("Name №%i: %s (%i, %i)\n", room[i]->order, room[i]->name,\
+		room[i]->coords[0], room[i]->coords[1]);
+		if (room[i]->ways)
 		{
-			printf("%s ", related[j]->name);
-			j++;
+			printf("Related with: ");
+			related = room[i]->ways->data;
+			while (j < room[i]->ways->next)
+			{
+				printf("%s ", related[j]->name);
+				j++;
+			}
+			printf("\n");
 		}
-		printf("\n\n");
+		if (room[i]->near)
+		{
+			printf("Related with indexes: ");
+			int		m;
+			int		*ptr;
+
+			m = 0;
+			ptr = room[i]->near->data;
+			while (m < room[i]->near->next)
+			{
+				printf("%i ", ptr[m]);
+				m++;
+			}
+			printf("\n");
+		}
+		printf("\n");
 		i++;
 	}
 }

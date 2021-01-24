@@ -57,6 +57,31 @@ static int	is_command(char *line)
 	return (0);
 }
 
+static void	check_dups(t_input *input)
+{
+	int		i;
+	int		j;
+	t_room	**room;
+	char	*name;
+	int		*coords;
+
+	i = 0;
+	room = input->rooms->data;
+	while (room && i < input->rooms->next)
+	{
+		coords = room[i]->coords;
+		name = room[i]->name;
+		j = i;
+		while (++j < input->rooms->next)
+		{
+			if (ft_strequ(name, room[j]->name) || (coords[0] ==\
+			room[j]->coords[0] && coords[1] == room[j]->coords[1]))
+				error(DUPS);
+		}
+		i++;
+	}
+}
+
 //старт необязательно идёт первым, возможен любой порядок
 
 void		read_input(int argc, char **argv, t_input *input)
@@ -85,5 +110,6 @@ void		read_input(int argc, char **argv, t_input *input)
 		ft_strdel(&line);
 	}
 	ft_strdel(&line);
+	check_dups(input);
 	fd ? close(fd) : 0;
 }

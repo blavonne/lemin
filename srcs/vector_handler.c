@@ -46,9 +46,26 @@ static int		push_room(t_vector **v, void *data, size_t size)
 	return (1);
 }
 
+static int		push_int(t_vector **v, void *data, size_t size)
+{
+	int		*arr;
+
+	if (!(*v))
+		(*v) = create_vector();
+	if (size * (*v)->next + size > (*v)->size)
+		if (!vector_resize(v))
+			return (0);
+	arr = (*v)->data;
+	arr[(*v)->next] = *(int *)data;
+	(*v)->next++;
+	return (1);
+}
+
 int				push_in_vector(t_vector **v, void *data, size_t size, int type)
 {
 	if (type == ROOM)
 		return (push_room(v, data, size));
+	else if (type == INT)
+		return (push_int(v, data, size));
 	return (0);
 }
