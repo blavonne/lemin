@@ -28,7 +28,7 @@ void		print_vector(t_vector *vector)
 		}
 		if (room[i]->near)
 		{
-			printf("Related with indexes: ");
+			printf("Related with: ");
 			int		m;
 			int		*ptr;
 
@@ -36,7 +36,7 @@ void		print_vector(t_vector *vector)
 			ptr = room[i]->near->data;
 			while (m < room[i]->near->next)
 			{
-				printf("%i ", ptr[m]);
+				printf("room[%i] ", ptr[m]);
 				m++;
 			}
 			printf("\n");
@@ -61,6 +61,8 @@ int			main(int argc, char **argv)
 	read_input(argc, argv, &input);
 	check_input(&input);
 	print_input(input);
+	clean_visit(&input);
+	dijkstra(&input);
 	clean_vector(&input.rooms);
 	return 0;
 }

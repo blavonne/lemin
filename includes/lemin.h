@@ -4,6 +4,8 @@
 # include "libft.h"
 # include <fcntl.h>
 # include <sys/io.h>
+# include <math.h>
+# include <stdio.h>
 
 # define ARGS		0b1000000000000000
 # define FILE		0b0100000000000000
@@ -17,7 +19,7 @@
 # define E_ROOM		0b0000000010000000
 # define DUPS		0b0000000001000000
 # define INT		0b0000000000100000
-# define VECTOR		511
+# define VECTOR		100
 
 # define COUNT		0b0000000000000000
 # define ANY		0b0000000000001011
@@ -25,6 +27,8 @@
 # define ROOM		0b0000000000000010
 # define LINK		0b0000000000000100
 # define END		0b0000000000001000
+
+# define INF		1.0 / 0.0
 
 typedef struct s_input t_input;
 typedef struct s_room t_room;
@@ -47,6 +51,9 @@ struct			s_room
 	int			is_start;
 	int			is_end;
 	int			visited;
+	int			ant_id;
+	double		weight;
+	int			prev;
 };
 
 struct			s_input
@@ -65,5 +72,7 @@ void			read_link(char *line, t_vector *rooms);
 int				push_in_vector(t_vector **v, void *data, size_t size, int type);
 void			clean_vector(t_vector **v);
 void			check_input(t_input *input);
+void			clean_visit(t_input *input);
+void			dijkstra(t_input *input);
 
 #endif
