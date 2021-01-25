@@ -52,7 +52,7 @@ struct			s_room
 	int			is_end;
 	int			visited;
 	int			ant_id;
-	double		weight;
+	double		distance;
 	int			prev;
 };
 
@@ -60,6 +60,8 @@ struct			s_input
 {
 	int			ants;
 	int			expected;
+	int			start_id;
+	int			end_id;
 	t_vector	*rooms;
 };
 
@@ -73,6 +75,9 @@ int				push_in_vector(t_vector **v, void *data, size_t size, int type);
 void			clean_vector(t_vector **v);
 void			check_input(t_input *input);
 void			clean_visit(t_input *input);
+
+void			reset_dist(t_input *input);
 void			dijkstra(t_input *input);
+void			bellman_ford(t_input *input);
 
 #endif

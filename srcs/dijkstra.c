@@ -1,6 +1,6 @@
 #include "lemin.h"
 
-static void	set_weight(t_input *input)
+void		reset_dist(t_input *input)
 {
 	t_room	**room;
 	int		i;
@@ -10,14 +10,14 @@ static void	set_weight(t_input *input)
 	while (i < input->rooms->next)
 	{
 		if (room[i]->is_start)
-			room[i]->weight = 0;
+			room[i]->distance = 0;
 		else
-			room[i]->weight = INF;
+			room[i]->distance = INF;
 		i++;
 	}
 }
 
-static int	value_neighbors(t_room *start, t_input *input)
+static void	value_neighbors(t_room *start, t_input *input)
 {
 	t_room	**room;
 	int		*index;
@@ -30,15 +30,15 @@ static int	value_neighbors(t_room *start, t_input *input)
 		index = start->near->data;
 		while (i < start->near->next)
 		{
-			if (room[index[i]]->weight == INF)
+			if (room[index[i]]->distance == INF)
 			{
-				room[index[i]]->weight = 1;
+				room[index[i]]->distance = 1;
 				room[index[i]]->prev = start->order;
 			}
 			else
-				if (room[index[i]]->weight > start->weight + 1)
+				if (room[index[i]]->distance > start->distance + 1)
 				{
-					room[index[i]]->weight = start->weight + 1;
+					room[index[i]]->distance = start->distance + 1;
 					room[index[i]]->prev = start->order;
 				}
 			i++;
@@ -51,23 +51,6 @@ static int	value_neighbors(t_room *start, t_input *input)
 			i++;
 		}
 	}
-	return (0);
-}
-
-int 		find_end(t_input *input)
-{
-	t_room	**room;
-	int		i;
-
-	i = 0;
-	room = input->rooms->data;
-	while (i < input->rooms->next)
-	{
-		if (room[i]->is_end == 1)
-			return (i);
-		i++;
-	}
-	return (0);
 }
 
 void		print_shortest(t_input *input, int end)
@@ -76,8 +59,7 @@ void		print_shortest(t_input *input, int end)
 	t_room	*ptr;
 
 	room = input->rooms->data;
-	printf("End is room %s.\n", room[end]->name);
-	printf("Way is:\n");
+	printf("Dijkstra way is: ");
 	ptr = room[end];
 	while (1)
 	{
@@ -86,7 +68,8 @@ void		print_shortest(t_input *input, int end)
 		if (ptr->is_start)
 			break ;
 	}
-	printf("%s\n", ptr->name);
+	printf("%s", ptr->name);
+	printf("\n\n");
 }
 
 void		dijkstra(t_input *input)
@@ -96,7 +79,7 @@ void		dijkstra(t_input *input)
 
 	i = 0;
 	room = input->rooms->data;
-	set_weight(input);
+	reset_dist(input);
 	while (i < input->rooms->next)
 	{
 		if (room[i]->is_start)
@@ -104,6 +87,5 @@ void		dijkstra(t_input *input)
 		i++;
 	}
 	value_neighbors(room[i], input);
-	i = find_end(input);
-	print_shortest(input, i);
+	print_shortest(input, input->end_id);
 }

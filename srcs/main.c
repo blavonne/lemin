@@ -63,6 +63,7 @@ int			main(int argc, char **argv)
 	print_input(input);
 	clean_visit(&input);
 	dijkstra(&input);
+	bellman_ford(&input);
 	clean_vector(&input.rooms);
 	return 0;
 }
