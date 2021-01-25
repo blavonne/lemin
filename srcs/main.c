@@ -5,7 +5,7 @@ void		print_vector(t_vector *vector)
 {
 	int		i;
 	t_room	**room;
-	t_room	**related;
+	int		*related;
 	int		j;
 
 	i = 0;
@@ -15,13 +15,13 @@ void		print_vector(t_vector *vector)
 		j = 0;
 		printf("Name №%i: %s (%i, %i)\n", room[i]->order, room[i]->name,\
 		room[i]->coords[0], room[i]->coords[1]);
-		if (room[i]->ways)
+		if (room[i]->near)
 		{
 			printf("Related with: ");
-			related = room[i]->ways->data;
-			while (j < room[i]->ways->next)
+			related = room[i]->near->data;
+			while (j < room[i]->near->next)
 			{
-				printf("%s ", related[j]->name);
+				printf("%s ", room[related[j]]->name);
 				j++;
 			}
 			printf("\n");
@@ -61,9 +61,10 @@ int			main(int argc, char **argv)
 	read_input(argc, argv, &input);
 	check_input(&input);
 	print_input(input);
-	clean_visit(&input);
+	reset_visited(&input);
 	dijkstra(&input);
 	bellman_ford(&input);
+	set_deadlock_off(&input);
 	clean_vector(&input.rooms);
 	return 0;
 }

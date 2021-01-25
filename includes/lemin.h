@@ -33,6 +33,7 @@
 typedef struct s_input t_input;
 typedef struct s_room t_room;
 typedef struct s_vector t_vector;
+typedef struct s_link t_link;
 
 struct			s_vector
 {
@@ -41,12 +42,24 @@ struct			s_vector
 	size_t	next;
 };
 
+struct			s_link
+{
+	t_room	*room;
+	int		status;
+	t_link	*next;
+};
+
+/*
+ * near is int vector and contains indexes of nearby vertexes
+ * ways is pointer vector and contains pointers to nearby vertexes
+ */
+
 struct			s_room
 {
 	char		*name;
 	int			coords[2];
-	t_vector	*ways;
 	t_vector	*near;
+	t_link		*link;
 	int			order;
 	int			is_start;
 	int			is_end;
@@ -58,11 +71,13 @@ struct			s_room
 
 struct			s_input
 {
+	t_vector	*rooms;
+	int			**weight;
+	int			**link_matrix;
 	int			ants;
 	int			expected;
 	int			start_id;
 	int			end_id;
-	t_vector	*rooms;
 };
 
 void			read_input(int argc, char **argv, t_input *input);
@@ -74,7 +89,11 @@ void			read_link(char *line, t_vector *rooms);
 int				push_in_vector(t_vector **v, void *data, size_t size, int type);
 void			clean_vector(t_vector **v);
 void			check_input(t_input *input);
-void			clean_visit(t_input *input);
+void			reset_visited(t_input *input);
+int				**create_matrix(int size);
+void			feel_matrix(t_input *input, int **matrix);
+void			print_matrix(int **matrix, int size);
+void			set_deadlock_off(t_input *input);
 
 void			reset_dist(t_input *input);
 void			dijkstra(t_input *input);

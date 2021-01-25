@@ -41,9 +41,9 @@ void			read_link(char *line, t_vector *rooms)
 	if (ft_strstr(line, ptr[left]->name) < ft_strstr(line, ptr[right]->name))
 		ft_swap(&left, &right);
 	check_link(left, right, ptr, line);
-	if (!push_in_vector(&ptr[left]->ways, ptr[right], sizeof(char *), ROOM) ||\
-	!push_in_vector(&ptr[right]->ways, ptr[left], sizeof(char *), ROOM))
-		error(MEMORY);
+//	if (!push_in_vector(&ptr[left]->ways, ptr[right], sizeof(char *), ROOM) ||\
+//	!push_in_vector(&ptr[right]->ways, ptr[left], sizeof(char *), ROOM))
+//		error(MEMORY);
 	if (!push_in_vector(&ptr[left]->near, &right, sizeof(int), INT) ||\
 	!push_in_vector(&ptr[right]->near, &left, sizeof(int), INT))
 		error(MEMORY);

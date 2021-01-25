@@ -11,9 +11,9 @@ void		clean_vector(t_vector **v)
 	{
 		free(room[i]->name);
 		room[i]->name = NULL;
-		room[i]->ways ? free(room[i]->ways->data) : 0;
-		free(room[i]->ways);
-		room[i]->ways = NULL;
+//		room[i]->ways ? free(room[i]->ways->data) : 0;
+//		free(room[i]->ways);
+//		room[i]->ways = NULL;
 		room[i]->near ? free(room[i]->near->data) : 0;
 		free(room[i]->near);
 		free(room[i]);
@@ -25,7 +25,7 @@ void		clean_vector(t_vector **v)
 	(*v) = NULL;
 }
 
-void		clean_visit(t_input *input)
+void		reset_visited(t_input *input)
 {
 	t_room		**room;
 	int			i;
@@ -38,3 +38,5 @@ void		clean_visit(t_input *input)
 		i++;
 	}
 }
+
+//добавить очистку интовой матрицы

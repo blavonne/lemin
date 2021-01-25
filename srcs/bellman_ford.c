@@ -29,39 +29,55 @@ void			print_way(t_room **room, int end)
 	printf("\n\n");
 }
 
-void			reset_prev(t_room **room, int size)
+void			reset_prev(t_input *input)
 {
+	t_room	**room;
 	int		i;
 
 	i = 0;
-	while (i < size)
+	while (i < input->rooms->next)
 	{
 		room[i]->prev = -1;
 		i++;
 	}
 }
 
-void			bellman_ford(t_input *input)
+void			make_reverse(t_input *input)
 {
 	t_room	**room;
-	t_room	**near;
-	int		i;
-	int		j;
+	t_room	*ptr;
+	int		cur_index;
+
+	room = input->rooms->data;
+	ptr = room[room[input->end_id]->prev];
+
+}
+
+void			bellman_ford(t_input *input)
+{
+	t_room		**room;
+	int			*index;
+	int			i;
+	int			j;
 
 	room = input->rooms->data;
 	reset_dist(input);
-	reset_prev(room, input->rooms->next);
+	reset_prev(input);
+	input->weight = create_matrix(input->rooms->next);
+	feel_matrix(input, input->weight);
 	i = 0;
 	while (i < input->rooms->next)
 	{
-		near = room[i]->ways->data;
+		index = room[i]->near->data;
 		j = 0;
-		while (j < room[i]->ways->next)
+		while (j < room[i]->near->next)
 		{
-			if (room[i]->distance > near[j]->distance + 1)
+			if (room[i]->distance > room[index[j]]->distance + \
+			input->weight[room[i]->order][index[j]])
 			{
-				room[i]->distance = near[j]->distance + 1;
-				room[i]->prev = near[j]->order;
+				room[i]->distance = room[index[j]]->distance + \
+				input->weight[room[i]->order][index[j]];
+				room[i]->prev = room[index[j]]->order;
 			}
 			j++;
 		}
@@ -69,4 +85,5 @@ void			bellman_ford(t_input *input)
 	}
 	print_dist(room, input->rooms->next);
 	print_way(room, input->end_id);
+	make_reverse(input);
 }

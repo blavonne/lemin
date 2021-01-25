@@ -9,12 +9,10 @@ void		reset_dist(t_input *input)
 	room = input->rooms->data;
 	while (i < input->rooms->next)
 	{
-		if (room[i]->is_start)
-			room[i]->distance = 0;
-		else
-			room[i]->distance = INF;
+		room[i]->distance = INF;
 		i++;
 	}
+	room[input->start_id]->distance = 0;
 }
 
 static void	value_neighbors(t_room *start, t_input *input)
