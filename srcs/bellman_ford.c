@@ -42,17 +42,6 @@ void			reset_prev(t_input *input)
 	}
 }
 
-void			make_reverse(t_input *input)
-{
-	t_room	**room;
-	t_room	*ptr;
-	int		cur_index;
-
-	room = input->rooms->data;
-	ptr = room[room[input->end_id]->prev];
-
-}
-
 void			bellman_ford(t_input *input)
 {
 	t_room		**room;
@@ -63,27 +52,31 @@ void			bellman_ford(t_input *input)
 	room = input->rooms->data;
 	reset_dist(input);
 	reset_prev(input);
-	input->weight = create_matrix(input->rooms->next);
+	input->weight = create_matrix_i(input->rooms->next);
 	feel_matrix(input, input->weight);
 	i = 0;
 	while (i < input->rooms->next)
 	{
-		index = room[i]->near->data;
-		j = 0;
-		while (j < room[i]->near->next)
+		if (room[i]->near)
 		{
-			if (room[i]->distance > room[index[j]]->distance + \
-			input->weight[room[i]->order][index[j]])
+			index = room[i]->near->data;
+			j = 0;
+			while (j < room[i]->near->next)
 			{
-				room[i]->distance = room[index[j]]->distance + \
+				if (room[i]->distance > room[index[j]]->distance + \
+			input->weight[room[i]->order][index[j]])
+				{
+					room[i]->distance = room[index[j]]->distance + \
 				input->weight[room[i]->order][index[j]];
-				room[i]->prev = room[index[j]]->order;
+					room[i]->prev = room[index[j]]->order;
+				}
+				j++;
 			}
-			j++;
 		}
 		i++;
 	}
 	print_dist(room, input->rooms->next);
 	print_way(room, input->end_id);
-	make_reverse(input);
 }
+
+//не совсем верный алгос. см тетрадь

@@ -57,10 +57,10 @@ struct			s_link
 struct			s_room
 {
 	char		*name;
+	int			order; //индекс в векторе
 	int			coords[2];
-	t_vector	*near;
+	t_vector	*near; //индексы соседей
 	t_link		*link;
-	int			order;
 	int			is_start;
 	int			is_end;
 	int			visited;
@@ -74,6 +74,7 @@ struct			s_input
 	t_vector	*rooms;
 	int			**weight;
 	int			**link_matrix;
+	double		**dist_matrix;
 	int			ants;
 	int			expected;
 	int			start_id;
@@ -90,13 +91,15 @@ int				push_in_vector(t_vector **v, void *data, size_t size, int type);
 void			clean_vector(t_vector **v);
 void			check_input(t_input *input);
 void			reset_visited(t_input *input);
-int				**create_matrix(int size);
+int				**create_matrix_i(int size);
+double			**create_matrix_d(size_t size);
 void			feel_matrix(t_input *input, int **matrix);
 void			print_matrix(int **matrix, int size);
-void			set_deadlock_off(t_input *input);
+void			link_matrix(t_input *input);
 
 void			reset_dist(t_input *input);
 void			dijkstra(t_input *input);
 void			bellman_ford(t_input *input);
 
+void			set_dist(t_input *input);
 #endif

@@ -1,6 +1,6 @@
 #include "lemin.h"
 
-int				**create_matrix(int size)
+int				**create_matrix_i(int size)
 {
 	int		**matrix;
 	int		i;
@@ -29,12 +29,15 @@ void			feel_matrix(t_input *input, int **matrix)
 	i = 0;
 	while (i < input->rooms->next)
 	{
-		near = room[i]->near->data;
-		j = 0;
-		while (j < room[i]->near->next)
+		if (room[i]->near)
 		{
-			matrix[room[i]->order][near[j]] = 1;
-			j++;
+			near = room[i]->near->data;
+			j = 0;
+			while (j < room[i]->near->next)
+			{
+				matrix[room[i]->order][near[j]] = 1;
+				j++;
+			}
 		}
 		i++;
 	}
@@ -58,4 +61,12 @@ void			print_matrix(int **matrix, int size)
 		h++;
 	}
 	printf("\n");
+}
+
+void			link_matrix(t_input *input)
+{
+	input->link_matrix = create_matrix_i(input->rooms->next);
+	feel_matrix(input, input->link_matrix);
+	printf("Link matrix is:\n");
+	print_matrix(input->link_matrix, input->rooms->next);
 }

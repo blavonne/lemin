@@ -64,7 +64,8 @@ int			main(int argc, char **argv)
 	reset_visited(&input);
 	dijkstra(&input);
 	bellman_ford(&input);
-	set_deadlock_off(&input);
+	link_matrix(&input);
+	set_dist(&input);
 	clean_vector(&input.rooms);
 	return 0;
 }
