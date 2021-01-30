@@ -31,13 +31,13 @@ static void	value_neighbors(t_room *start, t_input *input)
 			if (room[index[i]]->distance == INF)
 			{
 				room[index[i]]->distance = 1;
-				room[index[i]]->prev = start->order;
+				room[index[i]]->parent = start->order;
 			}
 			else
 				if (room[index[i]]->distance > start->distance + 1)
 				{
 					room[index[i]]->distance = start->distance + 1;
-					room[index[i]]->prev = start->order;
+					room[index[i]]->parent = start->order;
 				}
 			i++;
 		}
@@ -62,7 +62,7 @@ void		print_shortest(t_input *input, int end)
 	while (1)
 	{
 		printf("%s ", ptr->name);
-		ptr = room[ptr->prev];
+		ptr = room[ptr->parent];
 		if (ptr->is_start)
 			break ;
 	}

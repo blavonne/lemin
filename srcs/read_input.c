@@ -101,7 +101,7 @@ void		read_input(int argc, char **argv, t_input *input)
 			read_ants_count(line, input);
 		else if(input->expected & LINK)
 		{
-			read_link(line, input->rooms);
+			read_link(line, input);
 			input->expected = input->expected & LINK;
 		}
 		else if (input->expected & ANY || input->expected == E_ROOM ||\

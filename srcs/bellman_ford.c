@@ -20,24 +20,25 @@ void			print_way(t_room **room, int end)
 
 	ptr = room[end];
 	printf("Bellman-Ford way is: ");
-	while (ptr->prev >= 0)
+	while (ptr->parent >= 0)
 	{
 		printf("%s ", ptr->name);
-		ptr = room[ptr->prev];
+		ptr = room[ptr->parent];
 	}
 	printf("%s ", ptr->name);
 	printf("\n\n");
 }
 
-void			reset_prev(t_input *input)
+void			reset_parent(t_input *input)
 {
 	t_room	**room;
 	int		i;
 
 	i = 0;
+	room = input->rooms->data;
 	while (i < input->rooms->next)
 	{
-		room[i]->prev = -1;
+		room[i]->parent = -1;
 		i++;
 	}
 }
@@ -51,7 +52,7 @@ void			bellman_ford(t_input *input)
 
 	room = input->rooms->data;
 	reset_dist(input);
-	reset_prev(input);
+	reset_parent(input);
 	input->weight = create_matrix_i(input->rooms->next);
 	feel_matrix(input, input->weight);
 	i = 0;
@@ -63,12 +64,12 @@ void			bellman_ford(t_input *input)
 			j = 0;
 			while (j < room[i]->near->next)
 			{
-				if (room[i]->distance > room[index[j]]->distance + \
-			input->weight[room[i]->order][index[j]])
+				if (room[i]->distance > room[index[j]]->distance +\
+				input->weight[room[i]->order][index[j]])
 				{
-					room[i]->distance = room[index[j]]->distance + \
-				input->weight[room[i]->order][index[j]];
-					room[i]->prev = room[index[j]]->order;
+					room[i]->distance = room[index[j]]->distance +\
+					input->weight[room[i]->order][index[j]];
+					room[i]->parent = room[index[j]]->order;
 				}
 				j++;
 			}

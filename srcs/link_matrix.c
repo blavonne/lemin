@@ -54,7 +54,7 @@ void			print_matrix(int **matrix, int size)
 		w = 0;
 		while (w < size)
 		{
-			printf("%i ", matrix[h][w]);
+			printf("%2i ", matrix[h][w]);
 			w++;
 		}
 		printf("\n");
@@ -63,10 +63,10 @@ void			print_matrix(int **matrix, int size)
 	printf("\n");
 }
 
-void			link_matrix(t_input *input)
+void			set_links(t_input *input)
 {
-	input->link_matrix = create_matrix_i(input->rooms->next);
-	feel_matrix(input, input->link_matrix);
+	input->link = create_matrix_i(input->rooms->next);
+	feel_matrix(input, input->link);
 	printf("Link matrix is:\n");
-	print_matrix(input->link_matrix, input->rooms->next);
+	print_matrix(input->link, input->rooms->next);
 }

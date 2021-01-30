@@ -64,8 +64,9 @@ int			main(int argc, char **argv)
 	reset_visited(&input);
 	dijkstra(&input);
 	bellman_ford(&input);
-	link_matrix(&input);
+	set_links(&input);
 	set_dist(&input);
+//	set_path(&input);
 	clean_vector(&input.rooms);
 	return 0;
 }

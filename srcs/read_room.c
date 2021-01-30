@@ -26,7 +26,7 @@ static void		add_room(t_input *input, char *name, int x, int y)
 	}
 }
 
-static void		check_integer(char *line)
+void			check_is_number(char *line)
 {
 	int		i;
 
@@ -48,10 +48,19 @@ static void		check_integer(char *line)
 
 static void		check_name(char *line)
 {
+	int		i;
+
+	i = 0;
 	if (line)
 	{
 		if (line[0] == 'L' || line[0] == '#' || line[0] == '\0')
 			error(ROOM);
+		while (line[i])
+		{
+			if (line[i] == '-')
+				error(HYPHEN);
+			i++;
+		}
 	}
 	else
 		error(EMPTY);
@@ -79,7 +88,7 @@ void			read_room(char *line, t_input *input)
 	while (split[i])
 	{
 		(i == 0) ? check_name(split[0]) : 0;
-		(i == 1 || i == 2) ? check_integer(split[i]) : 0;
+		(i == 1 || i == 2) ? check_is_number(split[i]) : 0;
 		i++;
 	}
 	if (i != 3)

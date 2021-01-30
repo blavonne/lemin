@@ -41,29 +41,23 @@ void			set_inf(double **matrix, size_t size)
 
 void			dist_init(t_input *input)
 {
-	int		*near;
-	t_room	**room;
 	double	**dist;
 	size_t		i;
 	size_t		j;
 
-	room = input->rooms->data;
 	i = 0;
-	set_inf(input->dist_matrix, input->rooms->next);
-	dist = input->dist_matrix;
+	if (!input->dist)
+		input->dist = create_matrix_d(input->rooms->next);
+	set_inf(input->dist, input->rooms->next);
+	dist = input->dist;
 	while (i < input->rooms->next)
 	{
-		if (room[i]->near)
+		j = 0;
+		while (j < input->rooms->next)
 		{
-			near = room[i]->near->data;
-			j = 0;
-			while (j < room[i]->near->next)
-			{
-//			if (input->link_matrix[room[i]->order][near[j]])
-//				dist[room[i]->order][near[j]] = 1;
-				dist[room[i]->order][near[j]] = 1;
-				j++;
-			}
+			if (input->link[i][j] == 1)
+				dist[i][j] = 1;
+			j++;
 		}
 		i++;
 	}
@@ -90,43 +84,62 @@ void			print_distance(double **dist, size_t size)
 	printf("\n");
 }
 
+static void		calc_dist(double *dist, t_input *input)
+{
+	int			v;
+	int			u;
+	int			any;
+
+	while (1)
+	{
+		any = 0;
+		v = -1;
+		while (++v < input->rooms->next)
+		{
+			u = -1;
+			while (++u < input->rooms->next)
+			{
+				if (input->link[v][u] == 1 && dist[v] > dist[u] +\
+				input->weight[v][u])
+				{
+					dist[v] = dist[u] + input->weight[v][u];
+					any = 1;
+				}
+			}
+		}
+		if (!any)
+			break ;
+	}
+}
+
 void			set_dist(t_input *input)
 {
-	size_t		zadannaja;
-	size_t		tekuschaja;
-	size_t		sosed;
+	int			i;
 
-	input->dist_matrix = create_matrix_d(input->rooms->next);
 	dist_init(input);
-	print_distance(input->dist_matrix, input->rooms->next);
-	zadannaja = 0;
-	int		a;
+	reset_parent(input);
+	print_distance(input->dist, input->rooms->next);
+	i = -1;
+	while (++i < input->rooms->next)
+		calc_dist(input->dist[i], input);
+	print_distance(input->dist, input->rooms->next);
+}
 
-	a = 2;
-	while (a--)
+void			dist_check(t_input *input)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	while (i < input->rooms->next)
 	{
-		zadannaja = 0;
-		while (zadannaja < input->rooms->next)
+		j = 0;
+		while (j < input->rooms->next)
 		{
-			tekuschaja = 0;
-			while (tekuschaja < input->rooms->next)
-			{
-				sosed = 0;
-				while (sosed < input->rooms->next)
-				{
-					if (input->link_matrix[tekuschaja][sosed] == 1 &&\
-				input->dist_matrix[zadannaja][sosed] >\
-				(input->dist_matrix[zadannaja][tekuschaja] +\
-				input->weight[tekuschaja][sosed]))
-						input->dist_matrix[zadannaja][sosed] =\
-					input->dist_matrix[zadannaja][tekuschaja] +\
-					input->weight[tekuschaja][sosed];
-					sosed++;
-				}
-				tekuschaja++;
-			}
-			zadannaja++;
+			if (input->dist[i][j] != input->dist[j][i])
+				printf("[%i][%i] error!\n", i, j);
+			j++;
 		}
+		i++;
 	}
-	print_distance(input->dist_matrix, input->rooms->next);
 }
