@@ -47,13 +47,13 @@ void			dist_init(t_input *input)
 
 	i = 0;
 	if (!input->dist)
-		input->dist = create_matrix_d(input->rooms->next);
-	set_inf(input->dist, input->rooms->next);
+		input->dist = create_matrix_d(input->room->next);
+	set_inf(input->dist, input->room->next);
 	dist = input->dist;
-	while (i < input->rooms->next)
+	while (i < input->room->next)
 	{
 		j = 0;
-		while (j < input->rooms->next)
+		while (j < input->room->next)
 		{
 			if (input->link[i][j] == 1)
 				dist[i][j] = 1;
@@ -94,10 +94,10 @@ static void		calc_dist(double *dist, t_input *input)
 	{
 		any = 0;
 		v = -1;
-		while (++v < input->rooms->next)
+		while (++v < input->room->next)
 		{
 			u = -1;
-			while (++u < input->rooms->next)
+			while (++u < input->room->next)
 			{
 				if (input->link[v][u] == 1 && dist[v] > dist[u] +\
 				input->weight[v][u])
@@ -117,11 +117,11 @@ void			set_dist(t_input *input)
 	size_t			i;
 
 	dist_init(input);
-	print_distance(input->dist, input->rooms->next);
+	print_distance(input->dist, input->room->next);
 	i = -1;
-	while (++i < input->rooms->next)
+	while (++i < input->room->next)
 		calc_dist(input->dist[i], input);
-	print_distance(input->dist, input->rooms->next);
+	print_distance(input->dist, input->room->next);
 }
 
 void			dist_check(t_input *input)
@@ -130,10 +130,10 @@ void			dist_check(t_input *input)
 	size_t		j;
 
 	i = 0;
-	while (i < input->rooms->next)
+	while (i < input->room->next)
 	{
 		j = 0;
-		while (j < input->rooms->next)
+		while (j < input->room->next)
 		{
 			if (input->dist[i][j] != input->dist[j][i])
 				printf("[%ld][%ld] error!\n", i, j);

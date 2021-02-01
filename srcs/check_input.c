@@ -7,7 +7,7 @@ static int	check_way_to_end(t_input *input, int start)
 	size_t		i;
 
 	i = 0;
-	room = input->rooms->data;
+	room = input->room->data;
 	index = room[start]->near->data;
 	if (room[start]->visited)
 		return (0);

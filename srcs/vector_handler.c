@@ -29,10 +29,10 @@ static int		vector_resize(t_vector **v)
 	return (1);
 }
 
-static int		push_room(t_vector **v, void *data, size_t size)
+static int		push_pointer(t_vector **v, void *data, size_t size)
 {
-	t_room	**dst;
-	t_room	*next;
+	char	**dst;
+	char	*next;
 
 	if (!(*v))
 		(*v) = create_vector();
@@ -63,8 +63,8 @@ static int		push_int(t_vector **v, void *data, size_t size)
 
 int				push_in_vector(t_vector **v, void *data, size_t size, int type)
 {
-	if (type == ROOM)
-		return (push_room(v, data, size));
+	if (type == POINTER)
+		return (push_pointer(v, data, size));
 	else if (type == INT)
 		return (push_int(v, data, size));
 	return (0);

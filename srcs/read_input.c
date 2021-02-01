@@ -66,13 +66,13 @@ static void	check_dups(t_input *input)
 	int		*coords;
 
 	i = 0;
-	room = input->rooms->data;
-	while (room && i < input->rooms->next)
+	room = input->room->data;
+	while (room && i < input->room->next)
 	{
 		coords = room[i]->coords;
 		name = room[i]->name;
 		j = i;
-		while (++j < input->rooms->next)
+		while (++j < input->room->next)
 		{
 			if (ft_strequ(name, room[j]->name) || (coords[0] ==\
 			room[j]->coords[0] && coords[1] == room[j]->coords[1]))

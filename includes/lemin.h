@@ -17,7 +17,8 @@
 # define S_ROOM		0b0000000100000000
 # define E_ROOM		0b0000000010000000
 # define DUPS		0b0000000001000000
-# define INT		0b0000000000100000
+# define INT		1
+# define POINTER	2
 # define HYPHEN		0b0000000000010000
 # define VECTOR		100
 
@@ -33,8 +34,8 @@
 typedef struct s_input t_input;
 typedef struct s_room t_room;
 typedef struct s_vector t_vector;
-typedef struct s_link t_link;
 typedef struct s_path t_path;
+typedef struct s_ant t_ant;
 
 struct			s_vector
 {
@@ -43,11 +44,19 @@ struct			s_vector
 	size_t	next;
 };
 
-struct			s_link
+struct			s_path
 {
-	t_room	*room;
-	int		status;
-	t_link	*next;
+	int			*step;
+	int			len;
+	int			index;
+	t_path		*next;
+};
+
+struct			s_ant
+{
+	t_path		*way;
+	int			id;
+	int			step;
 };
 
 /*
@@ -63,14 +72,14 @@ struct			s_room
 	int			is_start;
 	int			is_end;
 	int			visited;
-	int			ant_id;
+	t_ant		ant;
 	double		distance;
 	int			coords[2];
 };
 
 struct			s_input
 {
-	t_vector	*rooms;
+	t_vector	*room;
 	int			**weight;
 	int			**link;
 	double		**dist;
@@ -78,12 +87,7 @@ struct			s_input
 	int			expected;
 	int			start_id;
 	int			end_id;
-};
-
-struct			s_path
-{
-	int		*path;
-	int		len;
+	t_vector	*path;
 };
 
 void			read_input(int argc, char **argv, t_input *input);
@@ -100,6 +104,7 @@ t_room			*create_room(void);
 void			reset_visited(t_input *input);
 void			reset_parent(t_input *input);
 void			reset_dist(t_input *input);
+void			reset_link_and_weight(t_input *input);
 
 int				**create_matrix_i(int size);
 double			**create_matrix_d(size_t size);
@@ -108,9 +113,10 @@ void			print_matrix_i(int **matrix, int size);
 
 void			dijkstra(t_input *input);
 void			bellman_ford(t_input *input);
+void			suurbale(t_input *input);
 
 void			set_links(t_input *input);
-void			set_dist(t_input *input); //Беллман-Форд
+void			set_dist(t_input *input); //Беллман-Форд для всех комнат
 void			set_path(t_input *input);
 
 #endif

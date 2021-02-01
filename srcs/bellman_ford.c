@@ -29,20 +29,6 @@ void			print_way(t_room **room, int end)
 	printf("\n\n");
 }
 
-void			reset_parent(t_input *input)
-{
-	t_room	**room;
-	size_t	i;
-
-	i = 0;
-	room = input->rooms->data;
-	while (i < input->rooms->next)
-	{
-		room[i]->parent = -1;
-		i++;
-	}
-}
-
 /*
  * если расстояние от старта до текущей комнаты больше, чем от соседа до
  * текущей, то расстояние от старта до текущей теперь равно расстоянию
@@ -56,19 +42,17 @@ void			bellman_ford(t_input *input)
 	size_t		i;
 	size_t		j;
 
-	room = input->rooms->data;
-	reset_dist(input);
-	reset_parent(input);
-	input->weight = create_matrix_i(input->rooms->next);
+	room = input->room->data;
+	input->weight = create_matrix_i(input->room->next);
 	feel_matrix(input, input->weight);
-	i = 0;
-	while (i < input->rooms->next)
+	i = -1;
+	while (++i < input->room->next)
 	{
 		if (room[i]->near)
 		{
 			index = room[i]->near->data;
-			j = 0;
-			while (j < room[i]->near->next)
+			j = -1;
+			while (++j < room[i]->near->next)
 			{
 				if (input->link[index[j]][room[i]->order] &&\
 				room[i]->distance > room[index[j]]->distance +\
@@ -78,12 +62,10 @@ void			bellman_ford(t_input *input)
 					input->weight[room[i]->order][index[j]];
 					room[i]->parent = room[index[j]]->order;
 				}
-				j++;
 			}
 		}
-		i++;
 	}
-	print_dist(room, input->rooms->next);
+	print_dist(room, input->room->next);
 	print_way(room, input->end_id);
 }
 

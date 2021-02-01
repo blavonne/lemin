@@ -1,20 +1,5 @@
 #include "lemin.h"
 
-void		reset_dist(t_input *input)
-{
-	t_room	**room;
-	size_t	i;
-
-	i = 0;
-	room = input->rooms->data;
-	while (i < input->rooms->next)
-	{
-		room[i]->distance = INF;
-		i++;
-	}
-	room[input->start_id]->distance = 0;
-}
-
 static void	value_neighbors(t_room *start, t_input *input)
 {
 	t_room	**room;
@@ -24,7 +9,7 @@ static void	value_neighbors(t_room *start, t_input *input)
 	i = 0;
 	if (start->visited == 0)
 	{
-		room = input->rooms->data;
+		room = input->room->data;
 		index = start->near->data;
 		while (i < start->near->next)
 		{
@@ -56,7 +41,7 @@ void		print_shortest(t_input *input, int end)
 	t_room	**room;
 	t_room	*ptr;
 
-	room = input->rooms->data;
+	room = input->room->data;
 	printf("Dijkstra way is: ");
 	ptr = room[end];
 	while (1)
@@ -76,9 +61,9 @@ void		dijkstra(t_input *input)
 	size_t	i;
 
 	i = 0;
-	room = input->rooms->data;
+	room = input->room->data;
 	reset_dist(input);
-	while (i < input->rooms->next)
+	while (i < input->room->next)
 	{
 		if (room[i]->is_start)
 			break ;

@@ -50,7 +50,7 @@ void		print_input(t_input input)
 {
 	printf("Ants: %i\n", input.ants);
 	printf("Rooms:\n");
-	print_vector(input.rooms);
+	print_vector(input.room);
 }
 
 int			main(int argc, char **argv)
@@ -62,10 +62,11 @@ int			main(int argc, char **argv)
 	check_input(&input);
 	print_input(input);
 	set_links(&input);
-	dijkstra(&input);
-	bellman_ford(&input);
-	set_dist(&input);
-	set_path(&input);
-	clean_vector(&input.rooms);
+//	dijkstra(&input);
+//	bellman_ford(&input);
+	suurbale(&input);
+//	set_dist(&input);
+//	set_path(&input);
+	clean_vector(&input.room);
 	return 0;
 }

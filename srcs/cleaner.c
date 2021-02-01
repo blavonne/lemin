@@ -22,18 +22,4 @@ void		clean_vector(t_vector **v)
 	(*v) = NULL;
 }
 
-void		reset_visited(t_input *input)
-{
-	t_room		**room;
-	size_t		i;
-
-	i = 0;
-	room = input->rooms->data;
-	while (i < input->rooms->next)
-	{
-		room[i]->visited = 0;
-		i++;
-	}
-}
-
 //добавить очистку интовой матрицы

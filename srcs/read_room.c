@@ -9,9 +9,9 @@ static void		add_room(t_input *input, char *name, int x, int y)
 		error(MEMORY);
 	room->coords[0] = x;
 	room->coords[1] = y;
-	if (!push_in_vector(&input->rooms, (void *)room, sizeof(t_room *), ROOM))
+	if (!push_in_vector(&input->room, (void *)room, sizeof(t_room *), POINTER))
 		error(MEMORY);
-	room->order = input->rooms->next - 1;
+	room->order = input->room->next - 1;
 	if (input->expected == S_ROOM)
 	{
 		room->is_start = 1;

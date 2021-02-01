@@ -62,11 +62,11 @@ void			read_link(char *line, t_input *input)
 	while(split[i++]);
 	if (i != 3)
 		error(HYPHEN);
-	room = input->rooms->data;
+	room = input->room->data;
 	name1 = -1;
 	name2 = -1;
 	i = 0;
-	while (i < input->rooms->next)
+	while (i < input->room->next)
 	{
 		if (ft_strequ(split[0], room[i]->name))
 			name1 = i;
