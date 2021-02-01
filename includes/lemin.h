@@ -2,10 +2,10 @@
 # define LEMIN_H
 # include <stdlib.h>
 # include "libft.h"
-# include <fcntl.h>
-# include <sys/io.h>
-# include <math.h>
-# include <stdio.h>
+# include <fcntl.h> // не помню, разрешено ли
+# include <sys/io.h> // не помню, разрешено ли
+# include <math.h> //denied
+# include <stdio.h> //denied
 
 # define ARGS		0b1000000000000000
 # define FILE		0b0100000000000000
@@ -52,7 +52,6 @@ struct			s_link
 
 /*
  * near is int vector and contains indexes of nearby vertexes
- * ways is pointer vector and contains pointers to nearby vertexes
  */
 
 struct			s_room
@@ -88,26 +87,30 @@ struct			s_path
 };
 
 void			read_input(int argc, char **argv, t_input *input);
-void			error(int reason);
 void			read_ants_count(char *line, t_input *input);
 void			read_room(char *line, t_input *input);
-t_room			*create_room(void);
 void			read_link(char *line, t_input *input);
+void			check_input(t_input *input);
+
+void			error(int reason);
 int				push_in_vector(t_vector **v, void *data, size_t size, int type);
 void			clean_vector(t_vector **v);
-void			check_input(t_input *input);
+t_room			*create_room(void);
+
 void			reset_visited(t_input *input);
 void			reset_parent(t_input *input);
+void			reset_dist(t_input *input);
+
 int				**create_matrix_i(int size);
 double			**create_matrix_d(size_t size);
 void			feel_matrix(t_input *input, int **matrix);
-void			print_matrix(int **matrix, int size);
-void			set_links(t_input *input);
+void			print_matrix_i(int **matrix, int size);
 
-void			reset_dist(t_input *input);
 void			dijkstra(t_input *input);
 void			bellman_ford(t_input *input);
 
+void			set_links(t_input *input);
 void			set_dist(t_input *input); //Беллман-Форд
 void			set_path(t_input *input);
+
 #endif

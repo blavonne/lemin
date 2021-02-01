@@ -43,7 +43,7 @@ void			feel_matrix(t_input *input, int **matrix)
 	}
 }
 
-void			print_matrix(int **matrix, int size)
+void			print_matrix_i(int **matrix, int size)
 {
 	int		h;
 	int		w;
@@ -68,5 +68,5 @@ void			set_links(t_input *input)
 	input->link = create_matrix_i(input->rooms->next);
 	feel_matrix(input, input->link);
 	printf("Link matrix is:\n");
-	print_matrix(input->link, input->rooms->next);
+	print_matrix_i(input->link, input->rooms->next);
 }
