@@ -35,6 +35,8 @@ void			set_path(t_input *input)
 //			error(MEMORY);
 //	}
 	turn_off_link(input);
+	printf("set_path link-matrix:\n");
 	print_matrix(input->link, input->rooms->next);
+	printf("set_path weight-matrix:\n");
 	print_matrix(input->weight, input->rooms->next);
 }

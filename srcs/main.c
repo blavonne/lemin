@@ -61,12 +61,11 @@ int			main(int argc, char **argv)
 	read_input(argc, argv, &input);
 	check_input(&input);
 	print_input(input);
-	reset_visited(&input);
+	set_links(&input);
 	dijkstra(&input);
 	bellman_ford(&input);
-	set_links(&input);
 	set_dist(&input);
-//	set_path(&input);
+	set_path(&input);
 	clean_vector(&input.rooms);
 	return 0;
 }

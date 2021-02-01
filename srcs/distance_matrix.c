@@ -117,7 +117,6 @@ void			set_dist(t_input *input)
 	int			i;
 
 	dist_init(input);
-	reset_parent(input);
 	print_distance(input->dist, input->rooms->next);
 	i = -1;
 	while (++i < input->rooms->next)

@@ -43,6 +43,12 @@ void			reset_parent(t_input *input)
 	}
 }
 
+/*
+ * если расстояние от старта до текущей комнаты больше, чем от соседа до
+ * текущей, то расстояние от старта до текущей теперь равно расстоянию
+ * от старта до соседа плюс вес ребра сосед-текущее
+ */
+
 void			bellman_ford(t_input *input)
 {
 	t_room		**room;
@@ -64,7 +70,8 @@ void			bellman_ford(t_input *input)
 			j = 0;
 			while (j < room[i]->near->next)
 			{
-				if (room[i]->distance > room[index[j]]->distance +\
+				if (input->link[index[j]][room[i]->order] &&\
+				room[i]->distance > room[index[j]]->distance +\
 				input->weight[room[i]->order][index[j]])
 				{
 					room[i]->distance = room[index[j]]->distance +\
@@ -80,4 +87,3 @@ void			bellman_ford(t_input *input)
 	print_way(room, input->end_id);
 }
 
-//не совсем верный алгос. см тетрадь

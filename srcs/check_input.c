@@ -58,4 +58,5 @@ void		check_input(t_input *input)
 {
 	if (!(check_way_to_end(input, input->start_id)))
 		error(NOWAY);
+	reset_visited(input);
 }
