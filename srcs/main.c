@@ -3,10 +3,10 @@
 
 void		print_vector(t_vector *vector)
 {
-	int		i;
+	size_t	i;
 	t_room	**room;
 	int		*related;
-	int		j;
+	size_t	j;
 
 	i = 0;
 	room = vector->data;
@@ -29,7 +29,7 @@ void		print_vector(t_vector *vector)
 		if (room[i]->near)
 		{
 			printf("Related with: ");
-			int		m;
+			size_t	m;
 			int		*ptr;
 
 			m = 0;

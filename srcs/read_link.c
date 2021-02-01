@@ -2,8 +2,8 @@
 
 static void		check_link(int left, int right, t_room **room, char *line)
 {
-	int		l_len;
-	int		r_len;
+	size_t		l_len;
+	size_t		r_len;
 
 	l_len = ft_strlen(room[left]->name);
 	r_len = ft_strlen(room[right]->name);
@@ -21,7 +21,7 @@ void			read_link_old(char *line, t_vector *rooms)
 {
 	int		left;
 	int		right;
-	int		i;
+	size_t	i;
 	t_room	**room;
 
 	room = (t_room **)rooms->data;
@@ -41,9 +41,6 @@ void			read_link_old(char *line, t_vector *rooms)
 	if (ft_strstr(line, room[left]->name) < ft_strstr(line, room[right]->name))
 		ft_swap(&left, &right);
 	check_link(left, right, room, line);
-//	if (!push_in_vector(&room[left]->ways, room[right], sizeof(char *), ROOM) ||\
-//	!push_in_vector(&room[right]->ways, room[left], sizeof(char *), ROOM))
-//		error(MEMORY);
 	if (!push_in_vector(&room[left]->near, &right, sizeof(int), INT) || \
 	!push_in_vector(&room[right]->near, &left, sizeof(int), INT))
 		error(MEMORY);
@@ -55,7 +52,7 @@ void			read_link(char *line, t_input *input)
 {
 	char		**split;
 	t_room		**room;
-	int			i;
+	size_t		i;
 	int			name1;
 	int			name2;
 

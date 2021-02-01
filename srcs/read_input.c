@@ -59,8 +59,8 @@ static int	is_command(char *line)
 
 static void	check_dups(t_input *input)
 {
-	int		i;
-	int		j;
+	size_t	i;
+	size_t		j;
 	t_room	**room;
 	char	*name;
 	int		*coords;

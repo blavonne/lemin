@@ -22,8 +22,8 @@ void			feel_matrix(t_input *input, int **matrix)
 {
 	t_room	**room;
 	int		*near;
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 
 	room = input->rooms->data;
 	i = 0;

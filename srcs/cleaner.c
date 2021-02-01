@@ -3,7 +3,7 @@
 void		clean_vector(t_vector **v)
 {
 	t_room	**room;
-	int		i;
+	size_t	i;
 
 	i = 0;
 	room = (*v)->data;
@@ -25,7 +25,7 @@ void		clean_vector(t_vector **v)
 void		reset_visited(t_input *input)
 {
 	t_room		**room;
-	int			i;
+	size_t		i;
 
 	i = 0;
 	room = input->rooms->data;

@@ -3,7 +3,7 @@
 void		reset_dist(t_input *input)
 {
 	t_room	**room;
-	int		i;
+	size_t	i;
 
 	i = 0;
 	room = input->rooms->data;
@@ -19,7 +19,7 @@ static void	value_neighbors(t_room *start, t_input *input)
 {
 	t_room	**room;
 	int		*index;
-	int		i;
+	size_t	i;
 
 	i = 0;
 	if (start->visited == 0)
@@ -73,7 +73,7 @@ void		print_shortest(t_input *input, int end)
 void		dijkstra(t_input *input)
 {
 	t_room	**room;
-	int		i;
+	size_t	i;
 
 	i = 0;
 	room = input->rooms->data;

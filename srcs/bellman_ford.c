@@ -32,7 +32,7 @@ void			print_way(t_room **room, int end)
 void			reset_parent(t_input *input)
 {
 	t_room	**room;
-	int		i;
+	size_t	i;
 
 	i = 0;
 	room = input->rooms->data;
@@ -53,8 +53,8 @@ void			bellman_ford(t_input *input)
 {
 	t_room		**room;
 	int			*index;
-	int			i;
-	int			j;
+	size_t		i;
+	size_t		j;
 
 	room = input->rooms->data;
 	reset_dist(input);

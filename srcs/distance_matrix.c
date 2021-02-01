@@ -86,8 +86,8 @@ void			print_distance(double **dist, size_t size)
 
 static void		calc_dist(double *dist, t_input *input)
 {
-	int			v;
-	int			u;
+	size_t		v;
+	size_t		u;
 	int			any;
 
 	while (1)
@@ -114,7 +114,7 @@ static void		calc_dist(double *dist, t_input *input)
 
 void			set_dist(t_input *input)
 {
-	int			i;
+	size_t			i;
 
 	dist_init(input);
 	print_distance(input->dist, input->rooms->next);
@@ -126,8 +126,8 @@ void			set_dist(t_input *input)
 
 void			dist_check(t_input *input)
 {
-	int		i;
-	int		j;
+	size_t		i;
+	size_t		j;
 
 	i = 0;
 	while (i < input->rooms->next)
@@ -136,7 +136,7 @@ void			dist_check(t_input *input)
 		while (j < input->rooms->next)
 		{
 			if (input->dist[i][j] != input->dist[j][i])
-				printf("[%i][%i] error!\n", i, j);
+				printf("[%ld][%ld] error!\n", i, j);
 			j++;
 		}
 		i++;

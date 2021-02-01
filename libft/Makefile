@@ -94,12 +94,13 @@ FLAGS = -Wall -Werror -Wextra
 INCLUDES = ./
 
 all: $(NAME)
+-include $(OS:.o=.d)
 $(NAME): $(OS) $(INCLUDES)libft.h
 	ar rcs $(NAME) $(OS)
-%.o: %.c $(INCLUDES)libft.h
-	gcc -c $< -o $@ $(FLAGS) -I $(INCLUDES)
+%.o: %.c
+	gcc -c $< -o $@ $(FLAGS) $(HEADERS) -MMD
 clean:
-	rm -rf $(OS)
+	rm -rf $(OS) $(OS:.o=.d)
 fclean: clean
 	rm -rf $(NAME)
 re: fclean all
