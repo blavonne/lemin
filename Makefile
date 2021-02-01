@@ -23,7 +23,9 @@ SRC = main.c\
 	bellman_ford.c\
 	link_matrix.c\
 	distance_matrix.c\
-	set_path.c
+	set_path.c\
+	suurbale.c\
+	reset.c
 OBJ = $(SRC:%.c=%.o)
 #HEADERS------------------------------------------------------------------------
 HEADERS = -I $(INC_DIR) -I $(L_ROOT)

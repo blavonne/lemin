@@ -8,7 +8,7 @@ t_vector 		*set_steps(t_input *input)
 
 	room = input->room->data;
 	ptr = room[input->end_id];
-	ft_bzero(step, sizeof(t_vector));
+	step = NULL;
 	while (ptr->is_start != 1)
 	{
 		if (!(push_in_vector(&step, &ptr->order, sizeof(int), INT)))
