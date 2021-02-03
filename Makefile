@@ -15,6 +15,7 @@ SRC = bellman_ford.c\
 	dijkstra.c\
 	distance_matrix.c\
 	error_handler.c\
+	input_init.c\
 	is_something.c\
 	link_matrix.c\
 	main.c\
@@ -24,6 +25,7 @@ SRC = bellman_ford.c\
 	read_room.c\
 	reset.c\
 	room_handler.c\
+	set_command.c\
 	set_path.c\
 	suurbale.c\
 	vector_handler.c

@@ -57,9 +57,7 @@ int			main(int argc, char **argv)
 {
 	t_input	input;
 
-	ft_bzero(&input, sizeof(input));
-	input.end_id = -1;
-	input.start_id = -1;
+	input_init(&input);
 	read_input(argc, argv, &input);
 	check_input(&input);
 	print_input(input);

@@ -87,6 +87,7 @@ struct			s_input
 	t_vector	*path; // вектор структур s_path
 };
 
+void			input_init(t_input *input);
 void			read_input(int argc, char **argv, t_input *input);
 void			read_ants_count(char *line, t_input *input);
 void			read_room(char *line, t_input *input);
@@ -112,6 +113,7 @@ void			dijkstra(t_input *input);
 void			bellman_ford(t_input *input);
 void			suurbale(t_input *input);
 
+void			set_command(char *line, t_input *input);
 void			set_links(t_input *input);
 void			set_dist(t_input *input); //Беллман-Форд для всех комнат
 void			set_path(t_input *input);
