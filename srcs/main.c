@@ -57,7 +57,7 @@ int			main(int argc, char **argv)
 {
 	t_input	input;
 
-	input_init(&input);
+	init_input(&input);
 	read_input(argc, argv, &input);
 	check_input(&input);
 	print_input(input);

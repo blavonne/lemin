@@ -87,7 +87,7 @@ struct			s_input
 	t_vector	*path; // вектор структур s_path
 };
 
-void			input_init(t_input *input);
+void			init_input(t_input *input);
 void			read_input(int argc, char **argv, t_input *input);
 void			read_ants_count(char *line, t_input *input);
 void			read_room(char *line, t_input *input);
