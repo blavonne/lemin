@@ -28,20 +28,20 @@
 
 # define INF		1.0 / 0.0
 
-typedef struct s_input t_input;
-typedef struct s_room t_room;
-typedef struct s_vector t_vector;
-typedef struct s_path t_path;
-typedef struct s_ant t_ant;
+typedef struct s_vector t_vector; // структура, описывающая тип данных вектор
+typedef struct s_path t_path; // структура, описывающая путь от S до E
+typedef struct s_ant t_ant; // структура, описывающая муравья
+typedef struct s_input t_input; // структура, описывающая все входные данные
+typedef struct s_room t_room; // структура, описывающая вершину
 
-struct			s_vector // структура, описывающая тип данных вектор
+struct			s_vector
 {
 	void	*data; // данные любого типа
 	size_t	size; // выделенная память
 	size_t	next; // индекс следующего для записи элемента (количество записанных элементов)
 };
 
-struct			s_path // структура, описывающая путь от S до E
+struct			s_path
 {
 	int			*step; // индексы вершин пути от S до E
 	int			len; // длина пути
@@ -49,18 +49,14 @@ struct			s_path // структура, описывающая путь от S д
 	t_path		*next; // следующий путь, мб не нужно
 };
 
-struct			s_ant // структура, описывающая муравья
+struct			s_ant
 {
 	t_path		*way; // указатель на используемый путь, можно заменить на id пути
 	int			id; // id муравья для вывода, дефолтное значение должно быть -1
 	int			cur_step; // индекс текущего выполняемого шага в s_path (step[cur_step])
 };
 
-/*
- * near is int vector and contains indexes of nearby vertexes
- */
-
-struct			s_room // структура, описывающая вершину
+struct			s_room
 {
 	char		*name; //имя комнаты
 	int			id; // порядковый номер (индекс) в векторе
@@ -74,7 +70,7 @@ struct			s_room // структура, описывающая вершину
 	int			coords[2]; // координаты комнаты
 };
 
-struct			s_input // структура, описывающая входные данные
+struct			s_input
 {
 	t_vector	*graph; //содержит все вершины графа
 	int			**weight; //матрица веса
@@ -84,7 +80,7 @@ struct			s_input // структура, описывающая входные д
 	int			expected; // валидация
 	int			start_id; // индекс стартовой комнаты в graph (t_room *graph->data[start_id])
 	int			end_id; // индекс финальной комнаты в graph (t_room *graph->data[end_id])
-	t_vector	*path; // вектор интовых массивов-путей
+	t_vector	*path; // вектор структур s_path
 };
 
 void			read_input(int argc, char **argv, t_input *input);
