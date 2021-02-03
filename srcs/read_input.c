@@ -39,6 +39,14 @@ static void	check_dups(t_input *input)
 	}
 }
 
+/*
+ * вернет 0, если команда неизвестна (фактически пропустит ее)
+ * вернет -1, если старт/финиш был найден, но пришла повторная команда
+ * вернет 2, если была найдена команда старта и индекс стартовой комнаты
+ * не был установлен
+ * вернет 3, если была найдена команда финиша и индекс последней комнаты
+ * не был установлен
+ */
 
 static int	check_command(char *line, t_input *input)
 {
@@ -60,6 +68,11 @@ static int	check_command(char *line, t_input *input)
 	return (1);
 }
 
+/*
+ * определяет команды старт и энд и меняет переключатель ожиданий
+ * на координаты соответствующей комнаты
+ */
+
 void		set_command(char *line, t_input *input)
 {
 	int		check;
@@ -72,8 +85,6 @@ void		set_command(char *line, t_input *input)
 	else if (check == 3)
 		input->expected = E_ROOM;
 }
-
-//старт необязательно идёт первым, возможен любой порядок
 
 void		read_input(int argc, char **argv, t_input *input)
 {
