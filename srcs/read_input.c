@@ -81,9 +81,9 @@ void		set_command(char *line, t_input *input)
 	if (check < 0)
 		error(ES_DUPS);
 	else if (check == 2)
-		input->expected = S_ROOM;
+		input->expected = START;
 	else if (check == 3)
-		input->expected = E_ROOM;
+		input->expected = END;
 }
 
 void		read_input(int argc, char **argv, t_input *input)

@@ -12,17 +12,17 @@ static void		add_room(t_input *input, char *name, int x, int y)
 	if (!push_in_vector(&input->graph, (void *)room, sizeof(t_room *), POINTER))
 		error(MEMORY);
 	room->id = input->graph->next - 1;
-	if (input->expected == S_ROOM)
+	if (input->expected == START)
 	{
 		room->is_start = 1;
 		input->start_id = room->id;
-		input->expected ^= S_ROOM;
+		input->expected ^= START;
 	}
-	if (input->expected == E_ROOM)
+	if (input->expected == END)
 	{
 		room->is_end = 1;
 		input->end_id = room->id;
-		input->expected ^= E_ROOM;
+		input->expected ^= END;
 	}
 }
 
