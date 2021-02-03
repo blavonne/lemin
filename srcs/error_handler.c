@@ -12,8 +12,6 @@ void	error(int reason)
 		ft_putstr_fd("Negative count of ants or not integer value!\n", 2);
 	if (reason == EMPTY)
 		ft_putstr_fd("Unexpected empty or incomplete line.\n", 2);
-//	if (reason == START)
-//		ft_putstr_fd("Expected ##start or ##end, got something else.\n", 2);
 	if (reason == ROOM)
 		ft_putstr_fd("Error in graph area.\n", 2);
 	if (reason == MEMORY)
@@ -26,7 +24,7 @@ void	error(int reason)
 		ft_putstr_fd("Error: room duplicate or the same coords.\n", 2);
 	if (reason == HYPHEN)
 		ft_putstr_fd("Error: graph name includes hyphen ('-').\n", 2);
-	if (reason == (END | START | DUPS))
+	if (reason == ES_DUPS)
 		ft_putstr_fd("Error: double start|end.\n", 2);
 	if (reason == UNKNOWN)
 		ft_putstr_fd("Error: unknown line.\n", 2);

@@ -3,7 +3,6 @@
 # include <stdlib.h>
 # include "libft.h"
 # include <fcntl.h> // не помню, разрешено ли
-# include <sys/io.h> // не помню, разрешено ли
 # include <math.h> //denied
 # include <stdio.h> //denied
 
@@ -23,10 +22,9 @@
 # define VECTOR		100
 
 # define UNKNOWN	0b0000000000000000
-# define START		0b0000000000000001
+# define ES_DUPS	0b0000000000000001
 # define ROOM		0b0000000000000010
 # define LINK		0b0000000000000100
-# define END		0b0000000000001000
 
 # define INF		1.0 / 0.0
 
@@ -36,47 +34,47 @@ typedef struct s_vector t_vector;
 typedef struct s_path t_path;
 typedef struct s_ant t_ant;
 
-struct			s_vector
+struct			s_vector // структура, описывающая тип данных вектор
 {
-	void	*data;
-	size_t	size;
-	size_t	next;
+	void	*data; // данные любого типа
+	size_t	size; // выделенная память
+	size_t	next; // индекс следующего для записи элемента (количество записанных элементов)
 };
 
-struct			s_path
+struct			s_path // структура, описывающая путь от S до E
 {
-	int			*step;
-	int			len;
-	int			index;
-	t_path		*next;
+	int			*step; // индексы вершин пути от S до E
+	int			len; // длина пути
+	int			id; // индекс самого пути
+	t_path		*next; // следующий путь, мб не нужно
 };
 
-struct			s_ant
+struct			s_ant // структура, описывающая муравья
 {
-	t_path		*way;
-	int			id;
-	int			step;
+	t_path		*way; // указатель на используемый путь, можно заменить на id пути
+	int			id; // id муравья для вывода, дефолтное значение должно быть -1
+	int			cur_step; // индекс текущего выполняемого шага в s_path (step[cur_step])
 };
 
 /*
  * near is int vector and contains indexes of nearby vertexes
  */
 
-struct			s_room
+struct			s_room // структура, описывающая вершину
 {
-	char		*name;
-	int			id; //индекс в векторе
-	int			parent;
-	t_vector	*near; //индексы соседей
-	int			is_start;
-	int			is_end;
-	int			visited;
-	t_ant		ant;
-	double		distance;
-	int			coords[2];
+	char		*name; //имя комнаты
+	int			id; // порядковый номер (индекс) в векторе
+	int			parent; // индекс вершины-родителя, заполняется после алгоритма Беллмана-Форда
+	t_vector	*near; // индексы соседей
+	int			is_start; // является ли началом
+	int			is_end; // является ли концом
+	int			visited; // флаг посещенности, используется при проверке на дубликаты и в алгоритме Дийкстры
+	t_ant		ant; // муравей в комнате
+	double		distance; // расстояние от стартовой комнаты до этой
+	int			coords[2]; // координаты комнаты
 };
 
-struct			s_input
+struct			s_input // структура, описывающая входные данные
 {
 	t_vector	*graph; //содержит все вершины графа
 	int			**weight; //матрица веса

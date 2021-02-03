@@ -66,24 +66,11 @@ void		set_command(char *line, t_input *input)
 
 	check = check_command(line, input);
 	if (check < 0)
-		error(START | END | DUPS);
+		error(ES_DUPS);
 	else if (check == 2)
 		input->expected = S_ROOM;
 	else if (check == 3)
 		input->expected = E_ROOM;
-}
-
-void		set_expected(t_input *input)
-{
-	int			expected;
-
-	expected = 0;
-	if (input->start_id < 0)
-		expected |= START;
-	if (input->end_id < 0)
-		expected |= END;
-	if (input->start_id >= 0 && input->end_id >= 0)
-		expected |= LINK;
 }
 
 //старт необязательно идёт первым, возможен любой порядок
