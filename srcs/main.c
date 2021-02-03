@@ -36,7 +36,7 @@ void		print_vector(t_vector *vector)
 			ptr = room[i]->near->data;
 			while (m < room[i]->near->next)
 			{
-				printf("graph[%i] ", ptr[m]);
+				printf("room[%i] ", ptr[m]);
 				m++;
 			}
 			printf("\n");

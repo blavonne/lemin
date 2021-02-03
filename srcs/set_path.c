@@ -18,7 +18,7 @@ t_vector 		*set_steps(t_input *input)
 	return (step);
 }
 
-void			set_path(t_input *input)
+void			set_path(t_input *input) // нужно создать вектор из структур s_path
 {
 	t_vector	*step;
 

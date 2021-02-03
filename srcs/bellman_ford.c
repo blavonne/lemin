@@ -8,7 +8,7 @@ void			print_dist(t_room **room, int size)
 	printf("Bellman-Ford dist from start to other is:\n");
 	while (i < size)
 	{
-		printf("graph[%i] = %.f; ", i, room[i]->distance);
+		printf("room[%i] = %.f; ", i, room[i]->distance);
 		i++;
 	}
 	printf("\n");
@@ -68,4 +68,3 @@ void			bellman_ford(t_input *input)
 	print_dist(room, input->graph->next);
 	print_way(room, input->end_id);
 }
-
