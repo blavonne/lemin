@@ -6,12 +6,12 @@ t_vector 		*set_steps(t_input *input)
 	t_room		**room;
 	t_room		*ptr;
 
-	room = input->room->data;
+	room = input->graph->data;
 	ptr = room[input->end_id];
 	step = NULL;
 	while (ptr->is_start != 1)
 	{
-		if (!(push_in_vector(&step, &ptr->order, sizeof(int), INT)))
+		if (!(push_in_vector(&step, &ptr->id, sizeof(int), INT)))
 			error(MEMORY);
 		ptr = room[ptr->parent];
 	}

@@ -25,9 +25,9 @@ void			feel_matrix(t_input *input, int **matrix)
 	size_t	i;
 	size_t	j;
 
-	room = input->room->data;
+	room = input->graph->data;
 	i = 0;
-	while (i < input->room->next)
+	while (i < input->graph->next)
 	{
 		if (room[i]->near)
 		{
@@ -35,7 +35,7 @@ void			feel_matrix(t_input *input, int **matrix)
 			j = 0;
 			while (j < room[i]->near->next)
 			{
-				matrix[room[i]->order][near[j]] = 1;
+				matrix[room[i]->id][near[j]] = 1;
 				j++;
 			}
 		}
@@ -65,8 +65,8 @@ void			print_matrix_i(int **matrix, int size)
 
 void			set_links(t_input *input)
 {
-	input->link = create_matrix_i(input->room->next);
+	input->link = create_matrix_i(input->graph->next);
 	feel_matrix(input, input->link);
 	printf("set_links matrix is:\n");
-	print_matrix_i(input->link, input->room->next);
+	print_matrix_i(input->link, input->graph->next);
 }

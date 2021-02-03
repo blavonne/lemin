@@ -9,20 +9,20 @@ static void	value_neighbors(t_room *start, t_input *input)
 	i = 0;
 	if (start->visited == 0)
 	{
-		room = input->room->data;
+		room = input->graph->data;
 		index = start->near->data;
 		while (i < start->near->next)
 		{
 			if (room[index[i]]->distance == INF)
 			{
 				room[index[i]]->distance = 1;
-				room[index[i]]->parent = start->order;
+				room[index[i]]->parent = start->id;
 			}
 			else
 				if (room[index[i]]->distance > start->distance + 1)
 				{
 					room[index[i]]->distance = start->distance + 1;
-					room[index[i]]->parent = start->order;
+					room[index[i]]->parent = start->id;
 				}
 			i++;
 		}
@@ -41,7 +41,7 @@ void		print_shortest(t_input *input, int end)
 	t_room	**room;
 	t_room	*ptr;
 
-	room = input->room->data;
+	room = input->graph->data;
 	printf("Dijkstra way is: ");
 	ptr = room[end];
 	while (1)
@@ -61,9 +61,9 @@ void		dijkstra(t_input *input)
 	size_t	i;
 
 	i = 0;
-	room = input->room->data;
+	room = input->graph->data;
 	reset_dist(input);
-	while (i < input->room->next)
+	while (i < input->graph->next)
 	{
 		if (room[i]->is_start)
 			break ;

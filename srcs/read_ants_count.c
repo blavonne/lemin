@@ -16,10 +16,7 @@ void		read_ants_count(char *line, t_input *input)
 			i++;
 		}
 		if (i)
-		{
 			input->ants = ft_atoi(line);
-			input->expected = ANY;
-		}
 		else
 			error(EMPTY);
 	}

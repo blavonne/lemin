@@ -9,20 +9,20 @@ static void		add_room(t_input *input, char *name, int x, int y)
 		error(MEMORY);
 	room->coords[0] = x;
 	room->coords[1] = y;
-	if (!push_in_vector(&input->room, (void *)room, sizeof(t_room *), POINTER))
+	if (!push_in_vector(&input->graph, (void *)room, sizeof(t_room *), POINTER))
 		error(MEMORY);
-	room->order = input->room->next - 1;
+	room->id = input->graph->next - 1;
 	if (input->expected == S_ROOM)
 	{
 		room->is_start = 1;
-		input->start_id = room->order;
-		input->expected = END | ROOM;
+		input->start_id = room->id;
+		input->expected ^= S_ROOM;
 	}
 	if (input->expected == E_ROOM)
 	{
 		room->is_end = 1;
-		input->end_id = room->order;
-		input->expected = LINK | ROOM | START;
+		input->end_id = room->id;
+		input->expected ^= E_ROOM;
 	}
 }
 
@@ -75,16 +75,6 @@ void			read_room(char *line, t_input *input)
 	i = 0;
 	if (!(split = ft_strsplit(line, ' ')))
 		error(EMPTY);
-	if (split[0] && (ft_strequ(split[0], "##end") || ft_strequ(split[0],\
-	"##start")) && !split[1])
-	{
-		input->expected = (ft_strequ(split[0], "##end")) ? E_ROOM : S_ROOM;
-		clean_two_dim((void ***)&split);
-		return ;
-	}
-	else if ((ft_strequ(split[0], "##end") || ft_strequ(split[0], "##start"))\
-	&& split[1])
-		error(START);
 	while (split[i])
 	{
 		(i == 0) ? check_name(split[0]) : 0;

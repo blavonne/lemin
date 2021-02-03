@@ -14,49 +14,6 @@ static int	check_file(char *file)
 	return (1);
 }
 
-static int	is_comment(char *line)
-{
-	int		i;
-
-	i = 0;
-	if (line)
-	{
-		while (line[i])
-		{
-			if ((i == 0 && line[0] != '#') || (i == 1 && line[1] == '#' &&\
-			line[0] == '#'))
-				return (0);
-			else if (i == 1 && line[1] != '#' && line[0] == '#')
-				return (1);
-			i++;
-		}
-	}
-	else
-		error(EMPTY);
-	return (0);
-}
-
-static int	is_command(char *line)
-{
-	int		i;
-
-	i = 0;
-	if (line)
-	{
-		while (line[i])
-		{
-			if (i == 1 && line[1] == '#' && line[0] == '#')
-				if (!(ft_strequ("##start", line)) &&\
-				!(ft_strequ("##end", line)))
-					return (1);
-			i++;
-		}
-	}
-	else
-		error(EMPTY);
-	return (0);
-}
-
 static void	check_dups(t_input *input)
 {
 	size_t	i;
@@ -66,13 +23,13 @@ static void	check_dups(t_input *input)
 	int		*coords;
 
 	i = 0;
-	room = input->room->data;
-	while (room && i < input->room->next)
+	room = input->graph->data;
+	while (i < input->graph->next)
 	{
 		coords = room[i]->coords;
 		name = room[i]->name;
 		j = i;
-		while (++j < input->room->next)
+		while (++j < input->graph->next)
 		{
 			if (ft_strequ(name, room[j]->name) || (coords[0] ==\
 			room[j]->coords[0] && coords[1] == room[j]->coords[1]))
@@ -80,6 +37,53 @@ static void	check_dups(t_input *input)
 		}
 		i++;
 	}
+}
+
+
+static int	check_command(char *line, t_input *input)
+{
+	int		start;
+	int		end;
+
+	start = ft_strequ(line, "##start");
+	end = ft_strequ(line, "##end");
+	if (!start && !end)
+		return (0);
+	if (start && input->start_id != -1)
+		return (-1);
+	if (end && input->end_id != -1)
+		return (-1);
+	if (start && input->start_id == -1)
+		return (2);
+	if (end && input->end_id == -1)
+		return (3);
+	return (1);
+}
+
+void		set_command(char *line, t_input *input)
+{
+	int		check;
+
+	check = check_command(line, input);
+	if (check < 0)
+		error(START | END | DUPS);
+	else if (check == 2)
+		input->expected = S_ROOM;
+	else if (check == 3)
+		input->expected = E_ROOM;
+}
+
+void		set_expected(t_input *input)
+{
+	int			expected;
+
+	expected = 0;
+	if (input->start_id < 0)
+		expected |= START;
+	if (input->end_id < 0)
+		expected |= END;
+	if (input->start_id >= 0 && input->end_id >= 0)
+		expected |= LINK;
 }
 
 //старт необязательно идёт первым, возможен любой порядок
@@ -95,18 +99,18 @@ void		read_input(int argc, char **argv, t_input *input)
 	fd = (argc == 1) ? 0 : open(argv[1], O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (is_comment(line) || is_command(line))
+		if (is_comment(line))
 			ft_strdel(&line);
-		else if (input->expected == COUNT)
+		else if (is_command(line))
+			set_command(line, input);
+		else if (input->ants == 0)
 			read_ants_count(line, input);
-		else if(input->expected & LINK)
-		{
+		else if (input->ants && is_link(line))
 			read_link(line, input);
-			input->expected = input->expected & LINK;
-		}
-		else if (input->expected & ANY || input->expected == E_ROOM ||\
-		input->expected == S_ROOM)
+		else if (input->ants && is_room(line))
 			read_room(line, input);
+		else
+			error(UNKNOWN);
 		ft_strdel(&line);
 	}
 	ft_strdel(&line);

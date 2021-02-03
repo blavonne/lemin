@@ -57,16 +57,16 @@ void			read_link(char *line, t_input *input)
 	int			name2;
 
 	i = 0;
+	if (input->start_id < 0 || input->end_id < 0)
+		error(UNKNOWN);
 	if (!(split = ft_strsplit(line, '-')))
 		error(MEMORY);
 	while(split[i++]);
-	if (i != 3)
-		error(HYPHEN);
-	room = input->room->data;
+	room = input->graph->data;
 	name1 = -1;
 	name2 = -1;
 	i = 0;
-	while (i < input->room->next)
+	while (i < input->graph->next)
 	{
 		if (ft_strequ(split[0], room[i]->name))
 			name1 = i;

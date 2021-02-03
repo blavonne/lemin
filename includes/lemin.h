@@ -22,8 +22,7 @@
 # define HYPHEN		0b0000000000010000
 # define VECTOR		100
 
-# define COUNT		0b0000000000000000
-# define ANY		0b0000000000001011
+# define UNKNOWN	0b0000000000000000
 # define START		0b0000000000000001
 # define ROOM		0b0000000000000010
 # define LINK		0b0000000000000100
@@ -66,7 +65,7 @@ struct			s_ant
 struct			s_room
 {
 	char		*name;
-	int			order; //индекс в векторе
+	int			id; //индекс в векторе
 	int			parent;
 	t_vector	*near; //индексы соседей
 	int			is_start;
@@ -79,15 +78,15 @@ struct			s_room
 
 struct			s_input
 {
-	t_vector	*room;
-	int			**weight;
-	int			**link;
-	double		**dist;
-	int			ants;
-	int			expected;
-	int			start_id;
-	int			end_id;
-	t_vector	*path;
+	t_vector	*graph; //содержит все вершины графа
+	int			**weight; //матрица веса
+	int			**link; // матрица смежностей
+	double		**dist; // матрица расстояний/достижимости
+	int			ants; //количество муравьев
+	int			expected; // валидация
+	int			start_id; // индекс стартовой комнаты в graph (t_room *graph->data[start_id])
+	int			end_id; // индекс финальной комнаты в graph (t_room *graph->data[end_id])
+	t_vector	*path; // вектор интовых массивов-путей
 };
 
 void			read_input(int argc, char **argv, t_input *input);
@@ -118,5 +117,10 @@ void			suurbale(t_input *input);
 void			set_links(t_input *input);
 void			set_dist(t_input *input); //Беллман-Форд для всех комнат
 void			set_path(t_input *input);
+
+int				is_comment(char *line);
+int				is_command(char *line);
+int				is_room(char *line);
+int				is_link(char *line);
 
 #endif

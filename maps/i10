@@ -1,5 +1,6 @@
+#invalid_map_wrong_hyphen_order
 10
-#start
+##start
 1 23 3
 2 16 7
 3 16 3
@@ -20,4 +21,4 @@
 7-6
 7-2
 7-4
-6-5
+-65

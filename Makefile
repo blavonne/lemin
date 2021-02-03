@@ -9,23 +9,24 @@ L_LIB = -L $(L_ROOT) -lft
 #FLAGS--------------------------------------------------------------------------
 FLAGS = -Wall -Werror -Wextra
 #SOURCES------------------------------------------------------------------------
-SRC = main.c\
-	read_input.c\
-	error_handler.c\
-	read_ants_count.c\
-	read_room.c\
-	room_handler.c\
-	read_link.c\
-	vector_handler.c\
-	cleaner.c\
+SRC = bellman_ford.c\
 	check_input.c\
+	cleaner.c\
 	dijkstra.c\
-	bellman_ford.c\
-	link_matrix.c\
 	distance_matrix.c\
+	error_handler.c\
+	is_something.c\
+	link_matrix.c\
+	main.c\
+	read_ants_count.c\
+	read_input.c\
+	read_link.c\
+	read_room.c\
+	reset.c\
+	room_handler.c\
 	set_path.c\
 	suurbale.c\
-	reset.c
+	vector_handler.c
 OBJ = $(SRC:%.c=%.o)
 #HEADERS------------------------------------------------------------------------
 HEADERS = -I $(INC_DIR) -I $(L_ROOT)

@@ -4,7 +4,7 @@ static int		check_way_to_end(t_input *input)
 {
 	t_room		**room;
 
-	room = input->room->data;
+	room = input->graph->data;
 	if (room[input->end_id]->distance == INF)
 		return (0);
 	return (1);
@@ -23,7 +23,7 @@ void			suurbale(t_input *input)
 		set_path(input); //пока не работает
 	}
 	printf("suurbale link-matrix:\n");
-	print_matrix_i(input->link, input->room->next);
+	print_matrix_i(input->link, input->graph->next);
 	printf("suurbale weight-matrix:\n");
-	print_matrix_i(input->weight, input->room->next);
+	print_matrix_i(input->weight, input->graph->next);
 }

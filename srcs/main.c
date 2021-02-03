@@ -13,7 +13,7 @@ void		print_vector(t_vector *vector)
 	while (i < vector->next)
 	{
 		j = 0;
-		printf("Name №%i: %s (%i, %i)\n", room[i]->order, room[i]->name,\
+		printf("Name №%i: %s (%i, %i)\n", room[i]->id, room[i]->name,\
 		room[i]->coords[0], room[i]->coords[1]);
 		if (room[i]->near)
 		{
@@ -36,7 +36,7 @@ void		print_vector(t_vector *vector)
 			ptr = room[i]->near->data;
 			while (m < room[i]->near->next)
 			{
-				printf("room[%i] ", ptr[m]);
+				printf("graph[%i] ", ptr[m]);
 				m++;
 			}
 			printf("\n");
@@ -50,7 +50,7 @@ void		print_input(t_input input)
 {
 	printf("Ants: %i\n", input.ants);
 	printf("Rooms:\n");
-	print_vector(input.room);
+	print_vector(input.graph);
 }
 
 int			main(int argc, char **argv)
@@ -58,6 +58,8 @@ int			main(int argc, char **argv)
 	t_input	input;
 
 	ft_bzero(&input, sizeof(input));
+	input.end_id = -1;
+	input.start_id = -1;
 	read_input(argc, argv, &input);
 	check_input(&input);
 	print_input(input);
@@ -67,6 +69,6 @@ int			main(int argc, char **argv)
 	suurbale(&input);
 //	set_dist(&input);
 //	set_path(&input);
-	clean_vector(&input.room);
+	clean_vector(&input.graph);
 	return 0;
 }
