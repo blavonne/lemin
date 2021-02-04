@@ -1,29 +1,44 @@
 #include "lemin.h"
 
-t_vector 		*set_steps(t_input *input)
+int				set_path_len(t_input *input)
 {
-	t_vector	*step;
 	t_room		**room;
 	t_room		*ptr;
+	int		len;
 
+	len = 0;
 	room = input->graph->data;
 	ptr = room[input->end_id];
-	step = NULL;
 	while (ptr->is_start != 1)
 	{
-		if (!(push_in_vector(&step, &ptr->id, sizeof(int), INT)))
-			error(MEMORY);
+		len++;
 		ptr = room[ptr->parent];
 	}
-	return (step);
+	return (len);
 }
 
 void			set_path(t_input *input) // нужно создать вектор из структур s_path
 {
-	t_vector	*step;
+	t_path		*path;
+	t_room		**room;
+	t_room		*ptr;
+	int			i;
 
-	step = set_steps(input);
-	if (!(push_in_vector(&input->path, (void *)step, sizeof(t_vector *),\
+	path = create_path();
+	path->len = set_path_len(input);
+	if (!(path->step = (int *)malloc(sizeof(int) * path->len)))
+		error(MEMORY);
+	room = input->graph->data;
+	ptr = room[input->end_id];
+	i = path->len - 1;
+	while (ptr->is_start != 1)
+	{
+		path->step[i] = ptr->parent;
+		ptr = room[ptr->parent];
+		i--;
+	}
+	if (!(push_in_vector(&input->path, (void *)path, sizeof(t_path *),\
 	POINTER)))
 		error(MEMORY);
+	path->id = (int)input->path->next - 1;
 }

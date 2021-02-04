@@ -45,7 +45,7 @@ struct			s_vector
 
 struct			s_path
 {
-	int			*step; // индексы вершин пути от S до E (t_room *graph->data[step])
+	int			*step; // индексы вершин пути от S до E (t_room *graph->data[step[i]])
 	int			len; // длина пути
 	int			id; // индекс самого пути
 	t_path		*next; // следующий путь, мб не нужно
@@ -97,13 +97,14 @@ void			check_input(t_input *input);
 void			error(int reason);
 int				push_in_vector(t_vector **v, void *data, size_t size, int type);
 void			clean_vector(t_vector **v);
-t_room			*create_room(void);
 
 void			reset_visited(t_input *input);
 void			reset_parent(t_input *input);
 void			reset_dist(t_input *input);
 void			reset_link_and_weight(t_input *input);
 
+t_room			*create_room(void);
+t_path			*create_path(void);
 int				**create_matrix_i(int size);
 double			**create_matrix_d(size_t size);
 void			feel_matrix(t_input *input, int **matrix);
