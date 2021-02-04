@@ -84,7 +84,7 @@ struct			s_input
 	int			expected; // валидация
 	int			start_id; // индекс стартовой комнаты в graph (t_room *graph->data[start_id])
 	int			end_id; // индекс финальной комнаты в graph (t_room *graph->data[end_id])
-	t_vector	*path; // вектор структур s_path
+	t_vector	*path_arr; // вектор структур s_path
 };
 
 void			init_input(t_input *input);

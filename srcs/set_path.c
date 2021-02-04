@@ -37,8 +37,8 @@ void			set_path(t_input *input) // нужно создать вектор из �
 		ptr = room[ptr->parent];
 		i--;
 	}
-	if (!(push_in_vector(&input->path, (void *)path, sizeof(t_path *),\
+	if (!(push_in_vector(&input->path_arr, (void *)path, sizeof(t_path *),\
 	POINTER)))
 		error(MEMORY);
-	path->id = (int)input->path->next - 1;
+	path->id = (int)input->path_arr->next - 1;
 }
