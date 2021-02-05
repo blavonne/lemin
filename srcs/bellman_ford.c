@@ -43,8 +43,11 @@ void			bellman_ford(t_input *input)
 	size_t		j;
 
 	room = input->graph->data;
-	input->weight = create_matrix_i(input->graph->next);
-	feel_matrix(input, input->weight);
+	if (!input->weight)
+	{
+		input->weight = create_matrix_i(input->graph->next);
+		feel_matrix_default(input, input->weight);
+	}
 	i = -1;
 	while (++i < input->graph->next)
 	{

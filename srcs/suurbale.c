@@ -12,6 +12,9 @@ static int		check_way_to_end(t_input *input)
 
 void			suurbale(t_input *input)
 {
+	int			i;
+
+	i = 0;
 	while (1) //найдет все независимые пути
 	{
 		reset_dist(input);
@@ -21,10 +24,11 @@ void			suurbale(t_input *input)
 			break ;
 		reset_link_and_weight(input);
 		set_path(input); //пока не работает
+		printf("suurbale link-matrix iter %i:\n", i);
+		print_matrix_i(input->link, input->graph->next);
+		printf("suurbale weight-matrix iter %i:\n", i);
+		print_matrix_i(input->weight, input->graph->next);
+		i++;
 	}
-	printf("suurbale link-matrix:\n");
-	print_matrix_i(input->link, input->graph->next);
-	printf("suurbale weight-matrix:\n");
-	print_matrix_i(input->weight, input->graph->next);
 	print_path(input);
 }
