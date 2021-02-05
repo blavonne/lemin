@@ -33,7 +33,7 @@ void			set_path(t_input *input) // нужно создать вектор из �
 	i = path->len - 1;
 	while (ptr->is_start != 1)
 	{
-		path->step[i] = ptr->parent;
+		path->step[i] = ptr->id;
 		ptr = room[ptr->parent];
 		i--;
 	}

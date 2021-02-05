@@ -26,4 +26,5 @@ void			suurbale(t_input *input)
 	print_matrix_i(input->link, input->graph->next);
 	printf("suurbale weight-matrix:\n");
 	print_matrix_i(input->weight, input->graph->next);
+	print_path(input);
 }

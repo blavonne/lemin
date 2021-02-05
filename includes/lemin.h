@@ -109,6 +109,7 @@ int				**create_matrix_i(int size);
 double			**create_matrix_d(size_t size);
 void			feel_matrix(t_input *input, int **matrix);
 void			print_matrix_i(int **matrix, int size);
+void			print_path(t_input *input);
 
 void			dijkstra(t_input *input);
 void			bellman_ford(t_input *input);
