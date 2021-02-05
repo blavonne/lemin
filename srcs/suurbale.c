@@ -15,19 +15,19 @@ void			suurbale(t_input *input)
 	int			i;
 
 	i = 0;
-	while (1) //найдет все независимые пути
+	while (i < 2) //найдет i независимых пути
 	{
 		reset_dist(input);
 		reset_parent(input);
 		bellman_ford(input);
-		if (!check_way_to_end(input))
-			break ;
-		reset_link_and_weight(input);
-		set_path(input); //пока не работает
+		relink_and_reweight(input);
+		set_path(input);
 		printf("suurbale link-matrix iter %i:\n", i);
 		print_matrix_i(input->link, input->graph->next);
 		printf("suurbale weight-matrix iter %i:\n", i);
 		print_matrix_i(input->weight, input->graph->next);
+		if (!check_way_to_end(input))
+			break ;
 		i++;
 	}
 	print_path(input);

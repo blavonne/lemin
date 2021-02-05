@@ -11,6 +11,8 @@ int				set_path_len(t_input *input)
 	ptr = room[input->end_id];
 	while (ptr->is_start != 1)
 	{
+		if (ptr->parent == -1)
+			break ;
 		len++;
 		ptr = room[ptr->parent];
 	}
@@ -33,6 +35,8 @@ void			set_path(t_input *input) // нужно создать вектор из �
 	i = path->len - 1;
 	while (ptr->is_start != 1)
 	{
+		if (ptr->parent == -1)
+			break ;
 		path->step[i] = ptr->id;
 		ptr = room[ptr->parent];
 		i--;

@@ -33,7 +33,7 @@ void			reset_parent(t_input *input)
 	room = input->graph->data;
 	while (i < input->graph->next)
 	{
-		room[i]->parent = -1;
+		room[i]->parent = NONE;
 		i++;
 	}
 }
@@ -65,7 +65,7 @@ void			reset_visited(t_input *input)
  * (построение обратного ребра)
  */
 
-void			reset_link_and_weight(t_input *input)
+void			relink_and_reweight(t_input *input)
 {
 	t_room		**room;
 	t_room		*ptr;
@@ -74,6 +74,8 @@ void			reset_link_and_weight(t_input *input)
 	ptr = room[input->end_id];
 	while (ptr->is_start != 1)
 	{
+		if (ptr->parent == -1)
+			break ;
 		input->weight[ptr->id][ptr->parent] = -1;
 		input->link[ptr->parent][ptr->id] = 0;
 		ptr = room[ptr->parent];

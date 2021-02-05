@@ -61,6 +61,7 @@ int			main(int argc, char **argv)
 	read_input(argc, argv, &input);
 	check_input(&input);
 	print_input(input);
+	double_input(&input);
 	set_links(&input);
 //	dijkstra(&input);
 //	bellman_ford(&input);

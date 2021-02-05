@@ -20,6 +20,7 @@
 # define POINTER	2
 # define HYPHEN		0b0000000000010000
 # define VECTOR		100
+# define NONE		-1
 
 # define UNKNOWN	0b0000000000000000
 # define ES_DUPS	0b0000000000000001
@@ -61,8 +62,10 @@ struct			s_ant
 struct			s_room
 {
 	char		*name; //имя комнаты
+	int			out; // out или in
 	int			id; // порядковый номер (индекс) в векторе graph
 	int			parent; // индекс вершины-родителя, заполняется после алгоритма Беллмана-Форда
+	int			child; // индекс вершины-ребенка
 	t_vector	*near; // индексы соседей (никогда не изменяются, все изменения в матрице смежностей)
 	// используется для быстрого обращения к вершинам, к которым есть путь из данной, причем о его наличии надо
 	// спрашивать в input->link[room->order][room[room->near->data[i]]->order]
@@ -101,13 +104,13 @@ void			clean_vector(t_vector **v);
 void			reset_visited(t_input *input);
 void			reset_parent(t_input *input);
 void			reset_dist(t_input *input);
-void			reset_link_and_weight(t_input *input);
+void			relink_and_reweight(t_input *input);
 
 t_room			*create_room(void);
 t_path			*create_path(void);
 int				**create_matrix_i(int size);
 double			**create_matrix_d(size_t size);
-void			feel_matrix_default(t_input *input, int **matrix);
+void			feel_matrix_default_i(t_input *input, int **matrix);
 void			print_matrix_i(int **matrix, int size);
 void			print_path(t_input *input);
 
@@ -119,6 +122,7 @@ void			set_command(char *line, t_input *input);
 void			set_links(t_input *input);
 void			set_dist(t_input *input); //Беллман-Форд для всех комнат
 void			set_path(t_input *input);
+void			set_matrix_default_i(t_input *input, int ***matrix);
 
 int				is_comment(char *line);
 int				is_command(char *line);

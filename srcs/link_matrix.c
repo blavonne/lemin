@@ -18,7 +18,7 @@ int				**create_matrix_i(int size)
 	return (matrix);
 }
 
-void			feel_matrix_default(t_input *input, int **matrix)
+void			feel_matrix_default_i(t_input *input, int **matrix)
 {
 	t_room	**room;
 	int		*near;
@@ -40,6 +40,15 @@ void			feel_matrix_default(t_input *input, int **matrix)
 			}
 		}
 		i++;
+	}
+}
+
+void			set_matrix_default_i(t_input *input, int ***matrix)
+{
+	if (!(*matrix))
+	{
+		*matrix = create_matrix_i(input->graph->next);
+		feel_matrix_default_i(input, (*matrix));
 	}
 }
 
@@ -66,7 +75,7 @@ void			print_matrix_i(int **matrix, int size)
 void			set_links(t_input *input)
 {
 	input->link = create_matrix_i(input->graph->next);
-	feel_matrix_default(input, input->link);
+	feel_matrix_default_i(input, input->link);
 	printf("set_links matrix is:\n");
 	print_matrix_i(input->link, input->graph->next);
 }
