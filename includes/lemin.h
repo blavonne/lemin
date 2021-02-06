@@ -47,7 +47,7 @@ struct			s_vector
 
 struct			s_path
 {
-	int			*step; // индексы вершин пути от S до E (t_room *graph->data[step[i]])
+	int			*way; // индексы вершин пути от S до E (t_room *graph->data[way[i]])
 	int			len; // длина пути
 	int			id; // индекс самого пути
 	t_path		*next; // следующий путь, мб не нужно
@@ -55,9 +55,9 @@ struct			s_path
 
 struct			s_ant
 {
-	t_path		*way; // указатель на используемый путь, можно заменить на int end пути (t_path.end)
-	int			id; // end муравья для вывода, дефолтное значение должно быть -1
-	int			cur_step; // индекс текущего выполняемого шага в s_path (step[cur_step])
+	t_path		*path; // указатель на используемый путь, можно заменить на id пути (t_path.id)
+	int			id; // id муравья для вывода, дефолтное значение должно быть -1
+	int			cur_step; // индекс текущего выполняемого шага в s_path (way[cur_step])
 };
 
 struct			s_edge
@@ -71,6 +71,7 @@ struct			s_edge
 struct			s_room
 {
 	char		*name; //имя комнаты
+	int			out; // in|out (по умолчанию in (out=0))
 	int			id; // порядковый номер (индекс) в векторе graph
 	int			parent; // индекс вершины-родителя, заполняется после алгоритма Беллмана-Форда
 	int			child; // индекс вершины-ребенка
@@ -112,7 +113,7 @@ void			clean_vector(t_vector **v);
 void			reset_visited(t_input *input);
 void			reset_parent(t_input *input);
 void			reset_dist(t_input *input);
-void			relink_and_reweight(t_input *input);
+void			reverse_edges(t_input *input);
 
 t_room			*create_room(void);
 t_path			*create_path(void);
@@ -123,11 +124,12 @@ void			feel_matrix_default_i(t_input *input, int **matrix);
 void			dijkstra(t_input *input);
 void			bellman_ford(t_input *input);
 void			suurbale(t_input *input);
+void			update_graph(t_input *input);
 
 void			set_command(char *line, t_input *input);
 void			set_links(t_input *input);
 void			set_dist(t_input *input); //Беллман-Форд для всех комнат
-void			set_path(t_input *input);
+void			add_path(t_input *input);
 void			set_matrix_default_i(t_input *input, int ***matrix);
 void			set_edge(t_input *input, int from, int to);
 void			set_edge_default(t_input *input);

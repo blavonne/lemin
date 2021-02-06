@@ -19,7 +19,7 @@ void	error(int reason)
 	if (reason == LINK)
 		ft_putstr_fd("Error in link area.\n", 2);
 	if (reason == NOWAY)
-		ft_putstr_fd("Error: no way to end.\n", 2);
+		ft_putstr_fd("Error: no path to end.\n", 2);
 	if (reason == DUPS)
 		ft_putstr_fd("Error: room duplicate or the same coords.\n", 2);
 	if (reason == HYPHEN)

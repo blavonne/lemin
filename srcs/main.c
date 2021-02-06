@@ -22,7 +22,7 @@ int			main(int argc, char **argv)
 //	bellman_ford(&input);
 	suurbale(&input);
 //	set_dist(&input);
-//	set_path(&input);
+//	add_path(&input);
 	clean_vector(&input.graph);
 	return 0;
 }

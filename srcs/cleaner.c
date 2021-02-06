@@ -9,10 +9,10 @@ void		clean_vector(t_vector **v)
 	room = (*v)->data;
 	while (i < (*v)->next)
 	{
-		free(room[i]->name);
-		room[i]->name = NULL;
+		ft_strdel(&room[i]->name);
 		room[i]->near ? free(room[i]->near->data) : 0;
-		free(room[i]->near);
+		room[i]->near ? free(room[i]->near) : 0;
+		room[i]->near = NULL;
 		free(room[i]);
 		room[i] = NULL;
 		i++;

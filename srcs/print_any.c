@@ -93,7 +93,7 @@ void			print_way(t_room **room, int end)
 	t_room	*ptr;
 
 	ptr = room[end];
-	printf("Bellman-Ford way is: ");
+	printf("Bellman-Ford path is: ");
 	while (ptr->parent >= 0)
 	{
 		printf("%s ", ptr->name);
@@ -115,11 +115,11 @@ void			print_path(t_input *input)
 	i = 0;
 	while (i < input->path_arr->next)
 	{
-		printf("%ld way is: ", i);
+		printf("%ld path is: ", i);
 		j = 0;
 		while (j < ways[i]->len)
 		{
-			printf("%s ", room[ways[i]->step[j]]->name);
+			printf("%s ", room[ways[i]->way[j]]->name);
 			j++;
 		}
 		printf("\n");

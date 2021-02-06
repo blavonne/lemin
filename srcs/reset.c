@@ -97,7 +97,7 @@ static void		set_weight(t_input *input, int parent, int child, int value)
  * (построение обратного ребра)
  */
 
-void			relink_and_reweight(t_input *input)
+void			reverse_edges(t_input *input)
 {
 	t_room		**room;
 	t_room		*ptr;

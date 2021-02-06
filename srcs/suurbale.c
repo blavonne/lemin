@@ -14,17 +14,16 @@ void			suurbale(t_input *input)
 {
 	int			i;
 
-	i = 0;
-	while (i < 2) //найдет i независимых путей
+	i = 1;
+	while (i) //найдет все независимые пути
 	{
 		reset_dist(input);
 		reset_parent(input);
 		bellman_ford(input);
-		relink_and_reweight(input);
-		set_path(input);
-//		update_graph(input);
 		if (!check_way_to_end(input))
 			break ;
+		add_path(input);
+		update_graph(input);
 		i++;
 	}
 	print_path(input);

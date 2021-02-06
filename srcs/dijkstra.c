@@ -42,7 +42,7 @@ void		print_shortest(t_input *input, int end)
 	t_room	*ptr;
 
 	room = input->graph->data;
-	printf("Dijkstra way is: ");
+	printf("Dijkstra path is: ");
 	ptr = room[end];
 	while (1)
 	{
