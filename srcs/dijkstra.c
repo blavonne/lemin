@@ -13,15 +13,15 @@ static void	value_neighbors(t_room *start, t_input *input)
 		index = start->near->data;
 		while (i < start->near->next)
 		{
-			if (room[index[i]]->distance == INF)
+			if (room[index[i]]->dist == INF)
 			{
-				room[index[i]]->distance = 1;
+				room[index[i]]->dist = 1;
 				room[index[i]]->parent = start->id;
 			}
 			else
-				if (room[index[i]]->distance > start->distance + 1)
+				if (room[index[i]]->dist > start->dist + 1)
 				{
-					room[index[i]]->distance = start->distance + 1;
+					room[index[i]]->dist = start->dist + 1;
 					room[index[i]]->parent = start->id;
 				}
 			i++;

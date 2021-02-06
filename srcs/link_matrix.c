@@ -52,26 +52,6 @@ void			set_matrix_default_i(t_input *input, int ***matrix)
 	}
 }
 
-void			print_matrix_i(int **matrix, int size)
-{
-	int		h;
-	int		w;
-
-	h = 0;
-	while (h < size)
-	{
-		w = 0;
-		while (w < size)
-		{
-			printf("%2i ", matrix[h][w]);
-			w++;
-		}
-		printf("\n");
-		h++;
-	}
-	printf("\n");
-}
-
 void			set_links(t_input *input)
 {
 	input->link = create_matrix_i(input->graph->next);

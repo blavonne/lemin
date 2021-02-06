@@ -36,6 +36,7 @@ typedef struct s_path t_path; // структура, описывающая пу
 typedef struct s_ant t_ant; // структура, описывающая муравья
 typedef struct s_input t_input; // структура, описывающая все входные данные
 typedef struct s_room t_room; // структура, описывающая вершину
+typedef struct s_edge t_edge;
 
 struct			s_vector
 {
@@ -54,26 +55,34 @@ struct			s_path
 
 struct			s_ant
 {
-	t_path		*way; // указатель на используемый путь, можно заменить на int id пути (t_path.id)
-	int			id; // id муравья для вывода, дефолтное значение должно быть -1
+	t_path		*way; // указатель на используемый путь, можно заменить на int end пути (t_path.end)
+	int			id; // end муравья для вывода, дефолтное значение должно быть -1
 	int			cur_step; // индекс текущего выполняемого шага в s_path (step[cur_step])
+};
+
+struct			s_edge
+{
+	int			id;
+	int			weight;
+	int			active;
+	t_edge		*next;
 };
 
 struct			s_room
 {
 	char		*name; //имя комнаты
-	int			out; // out или in
 	int			id; // порядковый номер (индекс) в векторе graph
 	int			parent; // индекс вершины-родителя, заполняется после алгоритма Беллмана-Форда
 	int			child; // индекс вершины-ребенка
 	t_vector	*near; // индексы соседей (никогда не изменяются, все изменения в матрице смежностей)
 	// используется для быстрого обращения к вершинам, к которым есть путь из данной, причем о его наличии надо
 	// спрашивать в input->link[room->order][room[room->near->data[i]]->order]
+	t_edge		*edge_list;
 	int			is_start; // является ли началом
 	int			is_end; // является ли концом
 	int			visited; // флаг посещенности, используется при проверке на дубликаты и в алгоритме Дийкстры
 	t_ant		ant; // муравей в комнате, не ссылка, потому что - а зачем?
-	double		distance; // расстояние от стартовой комнаты до этой
+	double		dist; // расстояние от стартовой комнаты до этой
 	int			coords[2]; // координаты комнаты
 };
 
@@ -86,11 +95,10 @@ struct			s_input
 	int			ants; //количество муравьев
 	int			expected; // валидация
 	int			start_id; // индекс стартовой комнаты в graph (t_room *graph->data[start_id])
-	int			end_id; // индекс финальной комнаты в graph (t_room *graph->data[end_id])
+	int			end_id; // индекс финальной комнаты в graph (t_room *graph->data[id])
 	t_vector	*path_arr; // вектор структур s_path
 };
 
-void			init_input(t_input *input);
 void			read_input(int argc, char **argv, t_input *input);
 void			read_ants_count(char *line, t_input *input);
 void			read_room(char *line, t_input *input);
@@ -111,8 +119,6 @@ t_path			*create_path(void);
 int				**create_matrix_i(int size);
 double			**create_matrix_d(size_t size);
 void			feel_matrix_default_i(t_input *input, int **matrix);
-void			print_matrix_i(int **matrix, int size);
-void			print_path(t_input *input);
 
 void			dijkstra(t_input *input);
 void			bellman_ford(t_input *input);
@@ -123,10 +129,19 @@ void			set_links(t_input *input);
 void			set_dist(t_input *input); //Беллман-Форд для всех комнат
 void			set_path(t_input *input);
 void			set_matrix_default_i(t_input *input, int ***matrix);
+void			set_edge(t_input *input, int from, int to);
+void			set_edge_default(t_input *input);
 
 int				is_comment(char *line);
 int				is_command(char *line);
 int				is_room(char *line);
 int				is_link(char *line);
+
+void			print_matrix_i(int **matrix, int size);
+void			print_path(t_input *input);
+void			print_input(t_input input);
+void			print_vector(t_vector *vector);
+void			print_way(t_room **room, int end);
+void			print_dist(t_room **room, int size);
 
 #endif
