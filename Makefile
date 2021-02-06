@@ -19,6 +19,7 @@ SRC = bellman_ford.c\
 	is_something.c\
 	link_matrix.c\
 	main.c\
+	path_handler.c\
 	print_any.c\
 	read_ants_count.c\
 	read_input.c\
@@ -26,8 +27,8 @@ SRC = bellman_ford.c\
 	read_room.c\
 	reset.c\
 	set_command.c\
-	set_path.c\
 	suurbale.c\
+	update_graph.c\
 	vector_handler.c
 OBJ = $(SRC:%.c=%.o)
 #HEADERS------------------------------------------------------------------------

@@ -28,17 +28,17 @@ void			dup_rooms(t_input *input)
 	}
 }
 
-void			include_dups(t_input *input)
-{
-	t_path		**path;
-	t_path		*ptr;
-	int			i;
-
-	path = input->path_arr->data;
-	ptr = path[input->path_arr->next - 1];
-	i = 0;
-	//дописать
-}
+//void			include_dups(t_input *input)
+//{
+//	t_path		**path;
+//	t_path		*ptr;
+//	int			i;
+//
+//	path = input->path_arr->data;
+//	ptr = path[input->path_arr->next - 1];
+//	i = 0;
+//	//дописать
+//}
 
 void			update_graph(t_input *input)
 {
@@ -46,6 +46,6 @@ void			update_graph(t_input *input)
 	{
 //		dup_rooms(input); пока не работает
 		reverse_edges(input);
-		include_dups(input);
+//		include_dups(input);
 	}
 }
