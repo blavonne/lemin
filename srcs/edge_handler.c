@@ -25,23 +25,50 @@ t_edge			*copy_edge_list(t_edge *src)
 	return (neu);
 }
 
-/*
- * установит значение веса и статуса активности на 1
- */
-
-void			set_edge(t_room *room, int edge_id, int weight, int active)
+void			replace_edge_end(t_edge *edge_list, int value, int new_value)
 {
-	t_edge	*ptr;
+	t_edge		*ptr;
 
-	ptr = room->edge_list;
+	ptr = edge_list;
 	while (ptr)
 	{
-		if (ptr->id == edge_id)
-		{
-			ptr->weight = weight;
-			ptr->active = active;
-		}
+		if (ptr->id == value)
+			ptr->id = new_value;
 		ptr = ptr->next;
+	}
+}
+
+/*
+ * установит значение веса и статуса активности
+ */
+
+void			set_active(t_input *input, int start, int end, int value)
+{
+	t_room		**room;
+	t_edge		*ptr;
+
+	room = input->graph->data;
+	ptr = room[start]->edge_list;
+	if (ptr)
+	{
+		while (ptr->id != end)
+			ptr = ptr->next;
+		ptr->active = value;
+	}
+}
+
+void			set_weight(t_input *input, int start, int end, int value)
+{
+	t_room		**room;
+	t_edge		*ptr;
+
+	room = input->graph->data;
+	ptr = room[start]->edge_list;
+	if (ptr)
+	{
+		while (ptr->id != end)
+			ptr = ptr->next;
+		ptr->weight = value;
 	}
 }
 
@@ -64,3 +91,5 @@ void			add_edge(t_input *input, int from, int to)
 		ptr->next = edge;
 	}
 }
+
+void			turn_off_edge()

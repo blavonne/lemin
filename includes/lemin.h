@@ -20,7 +20,7 @@
 # define POINTER	2
 # define HYPHEN		0b0000000000010000
 # define VECTOR		100
-# define NONE		-1
+# define NONE		-42
 
 # define UNKNOWN	0b0000000000000000
 # define ES_DUPS	0b0000000000000001
@@ -134,7 +134,10 @@ void			set_dist(t_input *input); //Беллман-Форд для всех ко�
 void			add_path(t_input *input);
 void			set_matrix_default_i(t_input *input, int ***matrix);
 void			add_edge(t_input *input, int from, int to);
+void			set_weight(t_input *input, int start, int end, int value);
+void			set_active(t_input *input, int start, int end, int value);
 void			set_edge(t_room *room, int edge_id, int weight, int active);
+void			replace_edge_end(t_edge *edge_list, int value, int new_value);
 
 int				is_comment(char *line);
 int				is_command(char *line);

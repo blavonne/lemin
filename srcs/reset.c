@@ -73,21 +73,6 @@ static void		set_link(t_input *input, int parent, int child, int value)
 	}
 }
 
-static void		set_weight(t_input *input, int parent, int child, int value)
-{
-	t_room		**room;
-	t_edge		*ptr;
-
-	room = input->graph->data;
-	ptr = room[parent]->edge_list;
-	if (ptr)
-	{
-		while (ptr->id != child)
-			ptr = ptr->next;
-		ptr->weight = value;
-	}
-}
-
 /*
  * начиная с финиша, устанавливает значение -1 в матрице веса между комнатой
  * и ее родителем (на первой итерации между финишем и предшественницей);

@@ -51,9 +51,9 @@ void			dup_rooms(t_input *input)
 		dup->edge_list = copy_edge_list(room[way[i]]->edge_list);
 		if (!(push_in_vector(&input->graph, dup, sizeof(t_room *), POINTER)))
 			error(MEMORY);
-		add_edge(input, dup->id, way[i]); //добавили вершину copy->orig
-		set_edge(room[dup->id], way[i], 0, 1); //сделали вес copy->orig = 0
-//		relink(dup->id, input);
+		replace_edge_end(dup->edge_list, way[i], room[way[i]]->parent); //замена связи клона с родителем оригинала на связь клон-оригинал
+		//все внешние связи клона восстановлены
+		//TODO: убрать связи IN orig, кроме связи с предыдущим узлом пути
 		i++;
 	}
 }
@@ -62,7 +62,7 @@ void			update_graph(t_input *input)
 {
 	if (input->path_arr->next)
 	{
-		dup_rooms(input);
 		reverse_edges(input);
+		dup_rooms(input);
 	}
 }
