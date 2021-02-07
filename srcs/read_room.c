@@ -19,6 +19,7 @@ static void		add_room(t_input *input, char *name, int x, int y)
 		error(MEMORY);
 	room->coords[0] = x;
 	room->coords[1] = y;
+	room->ant = NULL;
 	if (!push_in_vector(&input->graph, (void *)room, sizeof(t_room *), POINTER))
 		error(MEMORY);
 	room->id = input->graph->next - 1;

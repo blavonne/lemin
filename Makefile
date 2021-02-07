@@ -7,7 +7,7 @@ LIBFT = ./libft/libft.a
 L_ROOT = ./libft/
 L_LIB = -L $(L_ROOT) -lft
 #FLAGS--------------------------------------------------------------------------
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -g
 #SOURCES------------------------------------------------------------------------
 SRC = bellman_ford.c\
 	check_input.c\
@@ -29,7 +29,8 @@ SRC = bellman_ford.c\
 	set_command.c\
 	suurbale.c\
 	update_graph.c\
-	vector_handler.c
+	vector_handler.c\
+	ant_management.c
 OBJ = $(SRC:%.c=%.o)
 #HEADERS------------------------------------------------------------------------
 HEADERS = -I $(INC_DIR) -I $(L_ROOT)

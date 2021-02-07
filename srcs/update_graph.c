@@ -15,14 +15,15 @@ void			dup_rooms(t_input *input)
 	while (i < path[input->path_arr->next - 1]->len - 1)
 	{
 		dup = create_room();
-		dup->name = room[way[i]]->name;
+		dup->name = ft_strdup(room[way[i]]->name);
 		dup->out = 1;
 		dup->id = input->graph->next;
 		dup->parent = -1;
 		dup->child = room[way[i]]->id;
-		dup->near = room[way[i]]->near;
+		//dup->near = room[way[i]]->near;
 		dup->dist = INF;
-		if (!(push_in_vector(&input->graph, dup, sizeof(t_room *), POINTER)))
+		room[room[way[i]]->parent]->child = dup->id;
+		if (!(push_in_vector(&input->graph, (void *)dup, sizeof(t_room *), POINTER)))
 			error(MEMORY);
 		i++;
 	}
@@ -44,7 +45,7 @@ void			update_graph(t_input *input)
 {
 	if (input->path_arr->next)
 	{
-//		dup_rooms(input); пока не работает
+		dup_rooms(input); //пока не работает
 		reverse_edges(input);
 //		include_dups(input);
 	}
