@@ -77,7 +77,7 @@ struct			s_room
 	int			child; // индекс вершины-ребенка
 	t_vector	*near; // индексы соседей (никогда не изменяются, все изменения в матрице смежностей)
 	// используется для быстрого обращения к вершинам, к которым есть путь из данной, причем о его наличии надо
-	// спрашивать в input->link[room->order][room[room->near->data[i]]->order]
+	// спрашивать в input->link[room->id][room[room->near->data[i]]->id]
 	t_edge		*edge_list;
 	int			is_start; // является ли началом
 	int			is_end; // является ли концом
@@ -117,6 +117,8 @@ void			reverse_edges(t_input *input);
 
 t_room			*create_room(void);
 t_path			*create_path(void);
+t_edge			*create_edge();
+t_edge			*copy_edge_list(t_edge *src);
 int				**create_matrix_i(int size);
 double			**create_matrix_d(size_t size);
 void			feel_matrix_default_i(t_input *input, int **matrix);
@@ -131,8 +133,8 @@ void			set_links(t_input *input);
 void			set_dist(t_input *input); //Беллман-Форд для всех комнат
 void			add_path(t_input *input);
 void			set_matrix_default_i(t_input *input, int ***matrix);
-void			set_edge(t_input *input, int from, int to);
-void			set_edge_default(t_input *input);
+void			add_edge(t_input *input, int from, int to);
+void			set_edge(t_room *room, int edge_id, int weight, int active);
 
 int				is_comment(char *line);
 int				is_command(char *line);

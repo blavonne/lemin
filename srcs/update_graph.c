@@ -1,19 +1,35 @@
 #include "lemin.h"
 
-static t_room		*clone_room(t_room *orig)
+static t_room	*copy_room(t_room *orig)
 {
 	t_room		*clone;
 
 	clone = NULL;
 	clone = create_room();
-	clone->name = ft_strdup(orig->name);
+	if (!(clone->name = ft_strdup(orig->name)))
+		error(MEMORY);
 	clone->out = 1;
 	clone->parent = -1;
 	clone->child = orig->id;
-	clone->near = NULL;
 	clone->dist = INF;
 	return (clone);
 }
+
+//void			relink(int clone, t_input *input)
+//{
+//	t_room		**room;
+//	int			orig;
+//	t_edge		*orig_out;
+//	t_edge		*neu;
+//
+//	room = input->graph->data;
+//	orig = room[clone]->child;
+//	orig_out = room[orig]->edge_list;
+//	while (orig_out)
+//	{
+//
+//	}
+//}
 
 void			dup_rooms(t_input *input)
 {
@@ -30,25 +46,17 @@ void			dup_rooms(t_input *input)
 	room = input->graph->data;
 	while (i < path[input->path_arr->next - 1]->len - 1)
 	{
-		dup = clone_room(room[way[i]]);
+		dup = copy_room(room[way[i]]);
 		dup->id = input->graph->next;
+		dup->edge_list = copy_edge_list(room[way[i]]->edge_list);
 		if (!(push_in_vector(&input->graph, dup, sizeof(t_room *), POINTER)))
 			error(MEMORY);
+		add_edge(input, dup->id, way[i]); //добавили вершину copy->orig
+		set_edge(room[dup->id], way[i], 0, 1); //сделали вес copy->orig = 0
+//		relink(dup->id, input);
 		i++;
 	}
 }
-
-//void			include_dups(t_input *input)
-//{
-//	t_path		**path;
-//	t_path		*ptr;
-//	int			i;
-//
-//	path = input->path_arr->data;
-//	ptr = path[input->path_arr->next - 1];
-//	i = 0;
-//	//дописать
-//}
 
 void			update_graph(t_input *input)
 {
@@ -56,6 +64,5 @@ void			update_graph(t_input *input)
 	{
 		dup_rooms(input);
 		reverse_edges(input);
-//		include_dups(input);
 	}
 }

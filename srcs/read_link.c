@@ -80,6 +80,6 @@ void			read_link(char *line, t_input *input)
 	if (!push_in_vector(&room[name1]->near, &name2, sizeof(int), INT) || \
 	!push_in_vector(&room[name2]->near, &name1, sizeof(int), INT))
 		error(MEMORY);
-	set_edge(input, name1, name2);
-	set_edge(input, name2, name1);
+	add_edge(input, name1, name2);
+	add_edge(input, name2, name1);
 }

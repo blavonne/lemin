@@ -17,7 +17,6 @@ int			main(int argc, char **argv)
 	check_input(&input);
 	print_input(input);
 //	set_links(&input);
-	set_edge_default(&input);
 //	dijkstra(&input);
 //	bellman_ford(&input);
 	suurbale(&input);

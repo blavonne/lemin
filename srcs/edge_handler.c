@@ -1,30 +1,5 @@
 #include "lemin.h"
 
-/*
- * установит значение веса и статуса активности на 1
- */
-
-void			set_edge_default(t_input *input)
-{
-	t_room		**room;
-	t_edge		*ptr;
-	size_t		i;
-
-	i = 0;
-	room = input->graph->data;
-	while (i < input->graph->next)
-	{
-		ptr = room[i]->edge_list;
-		while (ptr)
-		{
-			ptr->weight = 1;
-			ptr->active = 1;
-			ptr = ptr->next;
-		}
-		i++;
-	}
-}
-
 t_edge			*create_edge()
 {
 	t_edge		*neu;
@@ -32,31 +7,60 @@ t_edge			*create_edge()
 	if (!(neu = (t_edge *)malloc(sizeof(t_edge))))
 		error(MEMORY);
 	ft_bzero(neu, sizeof(t_edge));
+	neu->active = 1;
+	neu->weight = 1;
 	return (neu);
 }
 
-void			add_edge(t_edge **head, t_edge *neu)
+t_edge			*copy_edge_list(t_edge *src)
 {
-	t_edge		*ptr;
+	t_edge	*neu;
 
-	if (!(*head))
-		(*head) = neu;
-	else
+	while (src)
 	{
-		ptr = *head;
-		while (ptr->next)
-			ptr = ptr->next;
-		ptr->next = neu;
+		neu = create_edge();
+		ft_memcpy(neu, src, sizeof(t_edge));
+		src = src->next;
+	}
+	return (neu);
+}
+
+/*
+ * установит значение веса и статуса активности на 1
+ */
+
+void			set_edge(t_room *room, int edge_id, int weight, int active)
+{
+	t_edge	*ptr;
+
+	ptr = room->edge_list;
+	while (ptr)
+	{
+		if (ptr->id == edge_id)
+		{
+			ptr->weight = weight;
+			ptr->active = active;
+		}
+		ptr = ptr->next;
 	}
 }
 
-void			set_edge(t_input *input, int from, int to)
+void			add_edge(t_input *input, int from, int to)
 {
 	t_room		**room;
 	t_edge		*edge;
+	t_edge		*ptr;
 
 	room = input->graph->data;
 	edge = create_edge();
 	edge->id = to;
-	add_edge(&room[from]->edge_list, edge);
+	if (!room[from]->edge_list)
+		room[from]->edge_list = edge;
+	else
+	{
+		ptr = room[from]->edge_list;
+		while (ptr->next)
+			ptr = ptr->next;
+		ptr->next = edge;
+	}
 }
