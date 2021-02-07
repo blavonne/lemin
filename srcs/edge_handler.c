@@ -91,5 +91,3 @@ void			add_edge(t_input *input, int from, int to)
 		ptr->next = edge;
 	}
 }
-
-void			turn_off_edge()
