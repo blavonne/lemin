@@ -1,5 +1,20 @@
 #include "lemin.h"
 
+static t_room		*clone_room(t_room *orig)
+{
+	t_room		*clone;
+
+	clone = NULL;
+	clone = create_room();
+	clone->name = ft_strdup(orig->name);
+	clone->out = 1;
+	clone->parent = -1;
+	clone->child = orig->id;
+	clone->near = NULL;
+	clone->dist = INF;
+	return (clone);
+}
+
 void			dup_rooms(t_input *input)
 {
 	t_path	**path;
@@ -9,19 +24,14 @@ void			dup_rooms(t_input *input)
 	int		i;
 
 	i = 0;
+	dup = NULL;
 	path = input->path_arr->data;
 	way = path[input->path_arr->next - 1]->way;
 	room = input->graph->data;
 	while (i < path[input->path_arr->next - 1]->len - 1)
 	{
-		dup = create_room();
-		dup->name = room[way[i]]->name;
-		dup->out = 1;
+		dup = clone_room(room[way[i]]);
 		dup->id = input->graph->next;
-		dup->parent = -1;
-		dup->child = room[way[i]]->id;
-		dup->near = room[way[i]]->near;
-		dup->dist = INF;
 		if (!(push_in_vector(&input->graph, dup, sizeof(t_room *), POINTER)))
 			error(MEMORY);
 		i++;
@@ -44,7 +54,7 @@ void			update_graph(t_input *input)
 {
 	if (input->path_arr->next)
 	{
-//		dup_rooms(input); пока не работает
+		dup_rooms(input);
 		reverse_edges(input);
 //		include_dups(input);
 	}
