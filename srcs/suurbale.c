@@ -13,6 +13,8 @@ static int		check_way_to_end(t_input *input)
 void			suurbale(t_input *input)
 {
 	int			i;
+	t_room	**rooms;
+	t_path	**paths;
 
 	i = 1;
 	while (i) //найдет все независимые пути
@@ -29,4 +31,7 @@ void			suurbale(t_input *input)
 		i++;
 	}
 	print_path(input);
+	rooms = input->graph->data;
+	paths = input->path_arr->data;
+	ant_management(input, rooms, paths);
 }
