@@ -26,7 +26,7 @@ static void		add_room(t_input *input, char *name, int x, int y)
 	room->orig_id = NONE;
 	if (!push_in_vector(&input->graph, (void *)room, sizeof(t_room *), PTR))
 		error(MEMORY);
-	room->id = input->graph->next - 1;
+	room->id = (int)input->graph->next - 1;
 	if (input->expected == START)
 	{
 		room->is_start = 1;

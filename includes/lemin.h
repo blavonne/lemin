@@ -78,7 +78,7 @@ struct			s_room
 	int			is_start; // является ли началом
 	int			is_end; // является ли концом
 	int			visited; // флаг посещенности, используется при проверке на дубликаты и в алгоритме Дийкстры
-	t_ant		ant; // муравей в комнате, не ссылка, потому что - а зачем?
+	t_ant		*ant; // муравей в комнате, не ссылка, потому что - а зачем?
 	double		dist; // расстояние от стартовой комнаты до этой
 	int			coords[2]; // координаты комнаты
 	int			is_copy; // является копией
@@ -155,5 +155,8 @@ void			print_vector(t_vector *vector);
 void			print_way(t_room **room, int end);
 void			print_dist(t_room **room, int size);
 void			print_edge(t_input *input);
+
+
+void			ant_management(t_input *input, t_room **rooms, t_path **paths);
 
 #endif
