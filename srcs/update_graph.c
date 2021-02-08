@@ -8,7 +8,6 @@ static t_room	*copy_room(t_room *orig)
 	clone = create_room();
 	if (!(clone->name = ft_strdup(orig->name)))
 		error(MEMORY);
-	clone->out = 1;
 	clone->parent = NONE;
 	clone->child = orig->id;
 	clone->dist = INF;
