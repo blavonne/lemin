@@ -1,18 +1,16 @@
 #include "lemin.h"
 
-t_ant			*create_ant(int	id, t_path *path, int step)
+t_ant			create_ant(int	id, t_path *path, int step)
 {
-	t_ant	*ant;
+	t_ant	ant;
 
-	if (!(ant = (t_ant *)malloc(sizeof(t_ant))))
-		error(MEMORY);
-	ant->id = id;
-	ant->path = path;
-	ant->cur_step = step;
+	ant.id = id;
+	ant.path = path;
+	ant.cur_step = step;
 	return (ant);
 }
 
-void	make_step(t_ant *ant, t_room **rooms)
+void	make_step(t_ant *ant, t_room **rooms, int *finished)
 {
 	int		step_index;
 	int		next_step;
@@ -24,19 +22,23 @@ void	make_step(t_ant *ant, t_room **rooms)
 		if (rooms[step_index]->ant == NULL)
 		{
 			printf("L%d-%s ", ant->id, rooms[step_index]->name);
+			fflush(stdout);
 			rooms[step_index]->ant = ant;
 			ant->cur_step++;
+			if (rooms[step_index]->is_end == 1)
+			{
+				(*finished)++;
+				ant->id = -1;
+			}
 		}
 		else
 		{
 			if (rooms[step_index]->is_end != 1)
 			{
-				rooms[next_step]->ant = rooms[step_index]->ant;
-				printf("L%d-%s ", rooms[next_step]->ant->id, rooms[next_step]->name);
-				rooms[next_step]->ant->cur_step++;
+				make_step(rooms[step_index]->ant, rooms, finished);
 			}
 			rooms[step_index]->ant = NULL;
-			make_step(ant, rooms);
+			make_step(ant, rooms, finished);
 		}
 	}
 }
@@ -45,7 +47,7 @@ void	ant_management(t_input *input, t_room **rooms, t_path **paths)
 {
 	size_t		i;
 	size_t		j;
-	t_ant	*ants[input->ants];
+	t_ant	ants[input->ants];
 	int		finished;
 
 	i = 0;
@@ -64,21 +66,21 @@ void	ant_management(t_input *input, t_room **rooms, t_path **paths)
 	{
 		if (i == (size_t)input->ants)
 			i = 0;
-		if (ants[i]->id != -1 && ants[i]->path->way[ants[i]->cur_step] == input->end_id)
+		if (ants[i].id != -1 && ants[i].path->way[ants[i].cur_step] == input->end_id)
 		{
-			finished++;
-			ants[i]->id = -1;
+			make_step(&ants[i], rooms, &finished);
+			ants[i].id = -1;
 			i++;
 			continue ;
 		}
-		if (ants[i]->id == -1)
+		if (ants[i].id == -1)
 		{
 			i++;
 			continue;
 		}
-		if (ants[i]->path->way[ants[i]->cur_step] != input->end_id)
+		if (ants[i].path->way[ants[i].cur_step] != input->end_id)
 		{
-			make_step(ants[i], rooms);
+			make_step(&ants[i], rooms, &finished);
 			i++;
 		}
 		j++;
@@ -88,4 +90,5 @@ void	ant_management(t_input *input, t_room **rooms, t_path **paths)
 			write(1, "\n", 1);
 		}
 	}
+	write(1, "\n", 1);
 }

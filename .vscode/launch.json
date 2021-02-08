@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/lem-in",
-            "args": ["maps/v4"],
+            "args": ["maps/v1"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
