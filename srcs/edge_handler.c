@@ -25,67 +25,60 @@ t_edge			*copy_edge_list(t_edge *src)
 	return (neu);
 }
 
-void			replace_edge_end(t_edge *edge_list, int value, int new_value)
+
+/*
+ * установит значение статуса активности
+ */
+
+void			set_active(t_edge *head, int from, int to, int value)
 {
 	t_edge		*ptr;
 
-	ptr = edge_list;
+	ptr = head;
 	while (ptr)
 	{
-		if (ptr->id == value)
-			ptr->id = new_value;
+		if (ptr->from == from && ptr->to == to)
+		{
+			ptr->active = value;
+			break ;
+		}
 		ptr = ptr->next;
 	}
 }
 
 /*
- * установит значение веса и статуса активности
+ * установит значение веса
  */
 
-void			set_active(t_input *input, int start, int end, int value)
+void			set_weight(t_edge *head, int from, int to, int value)
 {
-	t_room		**room;
 	t_edge		*ptr;
 
-	room = input->graph->data;
-	ptr = room[start]->edge_list;
-	if (ptr)
+	ptr = head;
+	while (ptr)
 	{
-		while (ptr->id != end)
-			ptr = ptr->next;
-		ptr->active = value;
+		if (ptr->from == from && ptr->to == to)
+		{
+			ptr->weight = value;
+			break ;
+		}
+		ptr = ptr->next;
 	}
 }
 
-void			set_weight(t_input *input, int start, int end, int value)
+void			add_edge(t_edge **head, int from, int to)
 {
-	t_room		**room;
-	t_edge		*ptr;
-
-	room = input->graph->data;
-	ptr = room[start]->edge_list;
-	if (ptr)
-	{
-		while (ptr->id != end)
-			ptr = ptr->next;
-		ptr->weight = value;
-	}
-}
-
-void			add_edge(t_input *input, int from, int to)
-{
-	t_room		**room;
 	t_edge		*edge;
 	t_edge		*ptr;
 
-	room = input->graph->data;
 	edge = create_edge();
-	edge->id = to;
-	if (!room[from]->edge_list)
-		room[from]->edge_list = edge;
+	edge->from = from;
+	edge->to = to;
+	if (!(*head))
+		(*head) = edge;
 	else
 	{
-		ptr = room[from]->edge_list;
+		ptr = (*head);
 		while (ptr->next)
 			ptr = ptr->next;
 		ptr->next = edge;

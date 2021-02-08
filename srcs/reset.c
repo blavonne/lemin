@@ -34,6 +34,7 @@ void			reset_parent(t_input *input)
 	while (i < input->graph->next)
 	{
 		room[i]->parent = NONE;
+		room[i]->child = NONE;
 		i++;
 	}
 }
@@ -58,21 +59,6 @@ void			reset_visited(t_input *input)
 	}
 }
 
-static void		set_link(t_input *input, int parent, int child, int value)
-{
-	t_room		**room;
-	t_edge		*ptr;
-
-	room = input->graph->data;
-	ptr = room[parent]->edge_list;
-	if (ptr)
-	{
-		while (ptr && ptr->id != child)
-			ptr = ptr->next;
-		ptr->active = value;
-	}
-}
-
 /*
  * начиная с финиша, устанавливает значение -1 в матрице веса между комнатой
  * и ее родителем (на первой итерации между финишем и предшественницей);
@@ -91,8 +77,8 @@ void			reverse_edges(t_input *input)
 	ptr = room[input->end_id];
 	while (ptr->is_start != 1 && ptr->parent != NONE)
 	{
-		set_link(input, ptr->parent, ptr->id, 0);
-		set_weight(input, ptr->id, ptr->parent, -1);
+		set_active(input->edge_list, ptr->parent, ptr->id, 0);
+		set_weight(input->edge_list, ptr->id, ptr->parent, -1);
 		ptr = room[ptr->parent];
 	}
 }

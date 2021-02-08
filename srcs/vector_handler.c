@@ -63,7 +63,7 @@ static int		push_int(t_vector **v, void *data, size_t size)
 
 int				push_in_vector(t_vector **v, void *data, size_t size, int type)
 {
-	if (type == POINTER)
+	if (type == PTR)
 		return (push_pointer(v, data, size));
 	else if (type == INT)
 		return (push_int(v, data, size));

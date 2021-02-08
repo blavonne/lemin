@@ -17,7 +17,7 @@
 # define END		0b0000000010000000
 # define DUPS		0b0000000001000000
 # define INT		1
-# define POINTER	2
+# define PTR	2
 # define HYPHEN		0b0000000000010000
 # define VECTOR		100
 # define NONE		-42
@@ -62,7 +62,8 @@ struct			s_ant
 
 struct			s_edge
 {
-	int			id;
+	int			from;
+	int			to;
 	int			weight;
 	int			active;
 	t_edge		*next;
@@ -72,13 +73,16 @@ struct			s_room
 {
 	char		*name; //имя комнаты
 	int			out; // in|out (по умолчанию in (out=0))
+	int			is_copy;
+	int			is_orig;
+	int			copy_id;
+	int			orig_id;
 	int			id; // порядковый номер (индекс) в векторе graph
 	int			parent; // индекс вершины-родителя, заполняется после алгоритма Беллмана-Форда
 	int			child; // индекс вершины-ребенка
 	t_vector	*near; // индексы соседей (никогда не изменяются, все изменения в матрице смежностей)
 	// используется для быстрого обращения к вершинам, к которым есть путь из данной, причем о его наличии надо
 	// спрашивать в input->link[room->id][room[room->near->data[i]]->id]
-	t_edge		*edge_list;
 	int			is_start; // является ли началом
 	int			is_end; // является ли концом
 	int			visited; // флаг посещенности, используется при проверке на дубликаты и в алгоритме Дийкстры
@@ -98,6 +102,7 @@ struct			s_input
 	int			start_id; // индекс стартовой комнаты в graph (t_room *graph->data[start_id])
 	int			end_id; // индекс финальной комнаты в graph (t_room *graph->data[id])
 	t_vector	*path_arr; // вектор структур s_path
+	t_edge		*edge_list;
 };
 
 void			read_input(int argc, char **argv, t_input *input);
@@ -133,9 +138,9 @@ void			set_links(t_input *input);
 void			set_dist(t_input *input); //Беллман-Форд для всех комнат
 void			add_path(t_input *input);
 void			set_matrix_default_i(t_input *input, int ***matrix);
-void			add_edge(t_input *input, int from, int to);
-void			set_weight(t_input *input, int start, int end, int value);
-void			set_active(t_input *input, int start, int end, int value);
+void			add_edge(t_edge **head, int from, int to);
+void			set_active(t_edge *head, int from, int to, int value);
+void			set_weight(t_edge *head, int from, int to, int value);
 void			set_edge(t_room *room, int edge_id, int weight, int active);
 void			replace_edge_end(t_edge *edge_list, int value, int new_value);
 
@@ -150,5 +155,6 @@ void			print_input(t_input input);
 void			print_vector(t_vector *vector);
 void			print_way(t_room **room, int end);
 void			print_dist(t_room **room, int size);
+void			print_edge(t_input *input);
 
 #endif

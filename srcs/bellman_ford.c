@@ -8,35 +8,25 @@
 
 void			bellman_ford(t_input *input)
 {
-	t_room		**room;
 	t_edge		*ptr;
+	t_room		**room;
 	size_t		i;
-	size_t		any;
 
+	i = -1;
 	room = input->graph->data;
-	while (1)
+	while (++i < input->graph->next)
 	{
-		i = -1;
-		any = 0;
-		while (++i < input->graph->next)
+		ptr = input->edge_list;
+		while (ptr)
 		{
-			ptr = room[i]->edge_list;
-			while (ptr)
+			if (ptr->active && room[ptr->to]->dist >\
+			room[ptr->from]->dist + ptr->weight)
 			{
-				if (ptr->active)
-				{
-					if (room[ptr->id]->dist > room[i]->dist + ptr->weight)
-					{
-						room[ptr->id]->dist = room[i]->dist + ptr->weight;
-						room[ptr->id]->parent = room[i]->id;
-						room[i]->child = ptr->id;
-						any = 1;
-					}
-				}
-				ptr = ptr->next;
+				room[ptr->to]->dist = room[ptr->from]->dist + ptr->weight;
+				room[ptr->to]->parent = ptr->from;
+				room[ptr->from]->child = ptr->to;
 			}
+			ptr = ptr->next;
 		}
-		if (!any)
-			break ;
 	}
 }

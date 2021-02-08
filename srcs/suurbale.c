@@ -17,6 +17,8 @@ void			suurbale(t_input *input)
 	i = 1;
 	while (i) //найдет все независимые пути
 	{
+		printf("==========suurbale %i============\n", i);
+		print_edge(input);
 		reset_dist(input);
 		reset_parent(input);
 		bellman_ford(input);

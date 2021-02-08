@@ -53,8 +53,8 @@ void			read_link(char *line, t_input *input)
 	char		**split;
 	t_room		**room;
 	size_t		i;
-	int			name1;
-	int			name2;
+	int			id1;
+	int			id2;
 
 	i = 0;
 	if (input->start_id < 0 || input->end_id < 0)
@@ -63,23 +63,23 @@ void			read_link(char *line, t_input *input)
 		error(MEMORY);
 	while(split[i++]);
 	room = input->graph->data;
-	name1 = -1;
-	name2 = -1;
+	id1 = -1;
+	id2 = -1;
 	i = 0;
 	while (i < input->graph->next)
 	{
 		if (ft_strequ(split[0], room[i]->name))
-			name1 = i;
+			id1 = i;
 		if (ft_strequ(split[1], room[i]->name))
-			name2 = i;
+			id2 = i;
 		i++;
 	}
 	clean_two_dim((void ***)&split);
-	if (name1 < 0 || name2 < 0)
+	if (id1 < 0 || id2 < 0)
 		error(LINK);
-	if (!push_in_vector(&room[name1]->near, &name2, sizeof(int), INT) || \
-	!push_in_vector(&room[name2]->near, &name1, sizeof(int), INT))
+	if (!push_in_vector(&room[id1]->near, &id2, sizeof(int), INT) || \
+	!push_in_vector(&room[id2]->near, &id1, sizeof(int), INT))
 		error(MEMORY);
-	add_edge(input, name1, name2);
-	add_edge(input, name2, name1);
+	add_edge(&input->edge_list, id1, id2);
+	add_edge(&input->edge_list, id2, id1);
 }

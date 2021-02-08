@@ -50,7 +50,7 @@ void			add_path(t_input *input) // нужно создать вектор из �
 			i--;
 		}
 		if (!(push_in_vector(&input->path_arr, (void *)path, sizeof(t_path *),\
-		POINTER)))
+		PTR)))
 			error(MEMORY);
 		path->id = (int)input->path_arr->next - 1;
 	}

@@ -126,3 +126,22 @@ void			print_path(t_input *input)
 		i++;
 	}
 }
+
+void		print_edge(t_input *input)
+{
+	t_edge	*ptr;
+	t_room	**room;
+
+	ptr = input->edge_list;
+	room = input->graph->data;
+	while (ptr)
+	{
+		printf("Edge [%s][%i]-[%s][%i]\n", room[ptr->from]->name, ptr->from,\
+		room[ptr->to]->name, ptr->to);
+		printf("Weight: %i\n", ptr->weight);
+		printf("Status: ");
+		ptr->active ? printf("active\n") : printf("unactive\n");
+		printf("\n");
+		ptr = ptr->next;
+	}
+}

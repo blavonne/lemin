@@ -9,27 +9,41 @@ static t_room	*copy_room(t_room *orig)
 	if (!(clone->name = ft_strdup(orig->name)))
 		error(MEMORY);
 	clone->out = 1;
-	clone->parent = -1;
+	clone->parent = NONE;
 	clone->child = orig->id;
 	clone->dist = INF;
+	clone->is_orig = 0;
+	clone->orig_id = orig->id;
+	clone->is_copy = 1;
+	clone->copy_id = NONE;
 	return (clone);
 }
 
-//void			relink(int clone, t_input *input)
-//{
-//	t_room		**room;
-//	int			orig;
-//	t_edge		*orig_out;
-//	t_edge		*neu;
-//
-//	room = input->graph->data;
-//	orig = room[clone]->child;
-//	orig_out = room[orig]->edge_list;
-//	while (orig_out)
-//	{
-//
-//	}
-//}
+void			replace_from(t_edge *head, int from, int except, int replace)
+{
+	t_edge		*ptr;
+
+	ptr = head;
+	while (ptr)
+	{
+		if (ptr->from == from && ptr->to != except)
+			ptr->from = replace;
+		ptr = ptr->next;
+	}
+}
+
+void			replace_to(t_edge *head, int from, int to, int replace)
+{
+	t_edge		*ptr;
+
+	ptr = head;
+	while (ptr)
+	{
+		if (ptr->from == from && ptr->to == to)
+			ptr->to = replace;
+		ptr = ptr->next;
+	}
+}
 
 void			dup_rooms(t_input *input)
 {
@@ -39,22 +53,25 @@ void			dup_rooms(t_input *input)
 	int		*way;
 	int		i;
 
-	i = 0;
-	dup = NULL;
 	path = input->path_arr->data;
 	way = path[input->path_arr->next - 1]->way;
 	room = input->graph->data;
-	while (i < path[input->path_arr->next - 1]->len - 1)
+	i = path[input->path_arr->next - 1]->len - 1;
+	while (--i >= 0)
 	{
-		dup = copy_room(room[way[i]]);
-		dup->id = input->graph->next;
-		dup->edge_list = copy_edge_list(room[way[i]]->edge_list);
-		if (!(push_in_vector(&input->graph, dup, sizeof(t_room *), POINTER)))
-			error(MEMORY);
-		replace_edge_end(dup->edge_list, way[i], room[way[i]]->parent); //замена связи клона с родителем оригинала на связь клон-оригинал
-		//все внешние связи клона восстановлены
-		//TODO: убрать связи IN orig, кроме связи с предыдущим узлом пути
-		i++;
+		if (room[way[i]]->is_orig && room[way[i]]->copy_id == NONE)
+		{
+			dup = copy_room(room[way[i]]);
+			dup->id = input->graph->next;
+			room[way[i]]->copy_id = dup->id;
+			if (!(push_in_vector(&input->graph, dup, sizeof(t_room *), PTR)))
+				error(MEMORY);
+			replace_from(input->edge_list, way[i], room[way[i]]->parent,\
+			dup->id);
+			add_edge(&input->edge_list, dup->id, way[i]);
+			set_weight(input->edge_list, dup->id, way[i], 0);
+			replace_to(input->edge_list, room[way[i]]->child, way[i], dup->id);
+		}
 	}
 }
 
