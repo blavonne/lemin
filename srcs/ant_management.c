@@ -1,13 +1,21 @@
 #include "lemin.h"
 
-t_ant			create_ant(int	id, t_path *path, int step)
+void		create_ant_arr(t_ant *ants, t_input *input, t_path **paths)
 {
-	t_ant	ant;
+	int		i;
+	size_t	j;
 
-	ant.id = id;
-	ant.path = path;
-	ant.cur_step = step;
-	return (ant);
+	i = 0;
+	j = 0;
+	while (i < input->ants)
+	{
+		ants[i].id = i;
+		ants[i].path = paths[j++];
+		ants[i].cur_step = 0;
+		if (j == input->path_arr->next && i < input->ants)
+			j = 0;
+		i++;
+	}
 }
 
 void	make_step(t_ant *ant, t_room **rooms, int *finished)
@@ -25,18 +33,12 @@ void	make_step(t_ant *ant, t_room **rooms, int *finished)
 			fflush(stdout);
 			rooms[step_index]->ant = ant;
 			ant->cur_step++;
-			if (rooms[step_index]->is_end == 1)
-			{
-				(*finished)++;
+			if (rooms[step_index]->is_end == 1 && ++(*finished))
 				ant->id = -1;
-			}
 		}
 		else
 		{
-			if (rooms[step_index]->is_end != 1)
-			{
-				make_step(rooms[step_index]->ant, rooms, finished);
-			}
+			rooms[step_index]->is_end != 1 ? make_step(rooms[step_index]->ant, rooms, finished) : 0;
 			rooms[step_index]->ant = NULL;
 			make_step(ant, rooms, finished);
 		}
@@ -50,39 +52,21 @@ void	ant_management(t_input *input, t_room **rooms, t_path **paths)
 	t_ant	ants[input->ants];
 	int		finished;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	finished = 0;
-	while (i < (size_t)input->ants)
+	create_ant_arr(&ants[0], input, paths);
+	while (finished != input->ants && ++i >= 0)
 	{
-		ants[i] = create_ant(i, paths[j++], 0);
-		if (j == input->path_arr->next && i < (size_t)input->ants)
-			j = 0;
-		i++;
-	}
-	i = 0;
-	j = 0;
-	while (finished != input->ants)
-	{
-		if (i == (size_t)input->ants)
-			i = 0;
-		if (ants[i].id != -1 && ants[i].path->way[ants[i].cur_step] == input->end_id)
+		i = (i == (size_t)input->ants) ? 0 : i;
+		if (ants[i].id == -1)
+			continue;
+		if (ants[i].path->way[ants[i].cur_step] == input->end_id)
 		{
 			make_step(&ants[i], rooms, &finished);
-			ants[i].id = -1;
-			i++;
 			continue ;
 		}
-		if (ants[i].id == -1)
-		{
-			i++;
-			continue;
-		}
-		if (ants[i].path->way[ants[i].cur_step] != input->end_id)
-		{
-			make_step(&ants[i], rooms, &finished);
-			i++;
-		}
+		make_step(&ants[i], rooms, &finished);
 		j++;
 		if (j == input->path_arr->next)
 		{
