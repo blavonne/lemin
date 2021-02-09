@@ -53,5 +53,6 @@ void			add_path(t_input *input) // нужно создать вектор из �
 		PTR)))
 			error(MEMORY);
 		path->id = (int)input->path_arr->next - 1;
+		path->status = 1;
 	}
 }

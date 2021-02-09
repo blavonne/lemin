@@ -28,5 +28,6 @@ void			suurbale(t_input *input)
 		update_graph(input);
 		i++;
 	}
+	frankenstein(input);
 	print_path(input);
 }

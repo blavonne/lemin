@@ -115,14 +115,19 @@ void			print_path(t_input *input)
 	i = 0;
 	while (i < input->path_arr->next)
 	{
-		printf("%ld path is: ", i);
-		j = 0;
-		while (j < ways[i]->len)
+		if (ways[i]->status == 1)
 		{
-			printf("%s ", room[ways[i]->way[j]]->name);
-			j++;
+			printf("%ld path is: ", i);
+			j = 0;
+			while (j < ways[i]->len)
+			{
+				if (j + 1 >= ways[i]->len || (j + 1 < ways[i]->len &&\
+			ways[i]->way[j] != ways[i]->way[j + 1]))
+					printf("%s ", room[ways[i]->way[j]]->name);
+				j++;
+			}
+			printf("\n");
 		}
-		printf("\n");
 		i++;
 	}
 }

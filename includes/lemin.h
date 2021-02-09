@@ -50,6 +50,7 @@ struct			s_path
 	int			*way; // индексы вершин пути от S до E (t_room *graph->data[way[i]])
 	int			len; // длина пути
 	int			id; // индекс самого пути
+	int			status;
 	t_path		*next; // следующий путь, мб не нужно
 };
 
@@ -130,6 +131,7 @@ void			feel_matrix_default_i(t_input *input, int **matrix);
 void			dijkstra(t_input *input);
 void			bellman_ford(t_input *input);
 void			suurbale(t_input *input);
+void			frankenstein(t_input *input);
 void			update_graph(t_input *input);
 
 void			set_command(char *line, t_input *input);

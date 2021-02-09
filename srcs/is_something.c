@@ -12,7 +12,8 @@ int			is_comment(char *line)
 			if ((i == 0 && line[0] != '#') || (i == 1 && line[1] == '#' &&\
 			line[0] == '#'))
 				return (0);
-			else if (i == 1 && line[1] != '#' && line[0] == '#')
+			else if ((i == 0 && !line[i + 1]) || (i == 1 && line[1] != '#' &&\
+			line[0] == '#'))
 				return (1);
 			i++;
 		}
