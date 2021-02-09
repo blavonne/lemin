@@ -10,6 +10,8 @@ void		create_ant_arr(t_ant *ants, t_input *input, t_path **paths)
 	while (i < input->ants)
 	{
 		ants[i].id = i;
+		while (paths[j]->status == 0)
+			j++;
 		ants[i].path = paths[j++];
 		ants[i].cur_step = 0;
 		if (j == input->path_arr->next && i < input->ants)
@@ -45,7 +47,7 @@ void	make_step(t_ant *ant, t_room **rooms, int *finished)
 	}
 }
 
-void	ant_management(t_input *input, t_room **rooms, t_path **paths)
+void	ant_management(t_input *input, t_room **rooms, t_path **paths, size_t active)
 {
 	size_t		i;
 	size_t		j;
@@ -68,7 +70,7 @@ void	ant_management(t_input *input, t_room **rooms, t_path **paths)
 		}
 		make_step(&ants[i], rooms, &finished);
 		j++;
-		if (j == input->path_arr->next)
+		if (j == active)
 		{
 			j = 0;
 			write(1, "\n", 1);

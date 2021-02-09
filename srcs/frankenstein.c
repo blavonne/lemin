@@ -19,7 +19,7 @@ void			remove_repeat(t_input *input)
 	{
 		j = 0;
 		way = path[i]->way;
-		while (j + 1 < path[i]->len)
+		while (j + 1 < (size_t)path[i]->len)
 		{
 			if (r[way[j]]->is_copy == 1)
 				way[j] = r[way[j]]->orig_id;
