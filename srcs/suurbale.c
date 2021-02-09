@@ -28,14 +28,14 @@ int				count_paths(t_path **paths, t_input *input)
 
 void			suurbale(t_input *input)
 {
-	size_t	i;
+	int			i;
 	t_room	**rooms;
 	t_path	**paths;
 
 	i = 1;
 	while (i) //найдет все независимые пути
 	{
-		printf("==========suurbale %i============\n", (int)i);
+		printf("==========suurbale %i============\n", i);
 		print_edge(input);
 		reset_dist(input);
 		reset_parent(input);
