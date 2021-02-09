@@ -32,7 +32,6 @@ void	make_step(t_ant *ant, t_room **rooms, int *finished)
 		if (rooms[step_index]->ant == NULL)
 		{
 			printf("L%d-%s ", ant->id, rooms[step_index]->name);
-			fflush(stdout);
 			rooms[step_index]->ant = ant;
 			ant->cur_step++;
 			if (rooms[step_index]->is_end == 1 && ++(*finished))
@@ -49,8 +48,8 @@ void	make_step(t_ant *ant, t_room **rooms, int *finished)
 
 void	ant_management(t_input *input, t_room **rooms, t_path **paths, size_t active)
 {
-	size_t		i;
-	size_t		j;
+	size_t	i;
+	size_t	j;
 	t_ant	ants[input->ants];
 	int		finished;
 
@@ -73,8 +72,8 @@ void	ant_management(t_input *input, t_room **rooms, t_path **paths, size_t activ
 		if (j == active)
 		{
 			j = 0;
-			write(1, "\n", 1);
+			printf("\n");
 		}
 	}
-	write(1, "\n", 1);
+	printf("\n");
 }
