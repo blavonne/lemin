@@ -1,52 +1,8 @@
 #include "lemin.h"
 
-static void		check_link(int left, int right, t_room **room, char *line)
-{
-	size_t		l_len;
-	size_t		r_len;
-
-	l_len = ft_strlen(room[left]->name);
-	r_len = ft_strlen(room[right]->name);
-	if (line[l_len] == '-' && ft_strlen(line) == l_len + r_len + 1)
-		return ;
-	else
-		error(LINK);
-}
-
 /*
 ** this func checks that name of link exists
 */
-
-void			read_link_old(char *line, t_vector *rooms)
-{
-	int		left;
-	int		right;
-	size_t	i;
-	t_room	**room;
-
-	room = (t_room **)rooms->data;
-	i = 0;
-	left = -1;
-	right = -1;
-	while (i < rooms->next)
-	{
-		if (left < 0 && ft_strstr(line, room[i]->name))
-			left = i;
-		else if (left != -1 && ft_strstr(line, room[i]->name))
-			right = i;
-		i++;
-	}
-	if (left < 0 || right < 0)
-		error(LINK);
-	if (ft_strstr(line, room[left]->name) < ft_strstr(line, room[right]->name))
-		ft_swap(&left, &right);
-	check_link(left, right, room, line);
-	if (!push_in_vector(&room[left]->near, &right, sizeof(int), INT) || \
-	!push_in_vector(&room[right]->near, &left, sizeof(int), INT))
-		error(MEMORY);
-}
-
-//искать не вхождения!!! сплитить сразу!!!
 
 void			read_link(char *line, t_input *input)
 {

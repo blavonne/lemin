@@ -78,6 +78,7 @@ void			reverse_edges(t_input *input)
 	while (ptr->is_start != 1 && ptr->parent != NONE)
 	{
 		set_active(input->edge_list, ptr->parent, ptr->id, 0);
+		set_active(input->edge_list, ptr->id, ptr->parent, 1);
 		set_weight(input->edge_list, ptr->id, ptr->parent, -1);
 		ptr = room[ptr->parent];
 	}
