@@ -2,21 +2,21 @@
 
 void		create_ant_arr(t_ant *ants, t_input *input, t_path **paths)
 {
-	int		i;
-	size_t	j;
+	int		ant_cnt;
+	size_t	path_cnt;
 
-	i = 0;
-	j = 0;
-	while (i < input->ants)
+	ant_cnt = 0;
+	path_cnt = 0;
+	while (ant_cnt < input->ants)
 	{
-		ants[i].id = i;
-		while (paths[j]->status == 0)
-			j++;
-		ants[i].path = paths[j++];
-		ants[i].cur_step = 0;
-		if (j == input->path_arr->next && i < input->ants)
-			j = 0;
-		i++;
+		ants[ant_cnt].id = ant_cnt;
+		while (paths[path_cnt]->status == 0)
+			path_cnt++;
+		ants[ant_cnt].path = paths[path_cnt++];
+		ants[ant_cnt].cur_step = 0;
+		if (path_cnt == input->path_arr->next && ant_cnt < input->ants)
+			path_cnt = 0;
+		ant_cnt++;
 	}
 }
 
@@ -48,30 +48,34 @@ void	make_step(t_ant *ant, t_room **rooms, int *finished)
 
 void	ant_management(t_input *input, t_room **rooms, t_path **paths, size_t active)
 {
-	size_t	i;
-	size_t	j;
+	size_t	ant_cnt;
+	size_t	path_cnt;
 	t_ant	ants[input->ants];
 	int		finished;
 
-	i = -1;
-	j = 0;
+	ant_cnt = -1;
+	path_cnt = 0;
 	finished = 0;
 	create_ant_arr(&ants[0], input, paths);
-	while (finished != input->ants && ++i >= 0)
+	while (finished != input->ants && ++ant_cnt >= 0)
 	{
-		i = (i == (size_t)input->ants) ? 0 : i;
-		if (ants[i].id == -1)
-			continue;
-		if (ants[i].path->way[ants[i].cur_step] == input->end_id)
+		if (ant_cnt == (size_t)input->ants)
 		{
-			make_step(&ants[i], rooms, &finished);
+			ant_cnt = 0;
+			if (path_cnt != 0)
+				printf("\n");
+		}
+		if (ants[ant_cnt].id == -1)
+			continue;
+		if (ants[ant_cnt].path->way[ants[ant_cnt].cur_step] == input->end_id)
+		{
+			make_step(&ants[ant_cnt], rooms, &finished);
 			continue ;
 		}
-		make_step(&ants[i], rooms, &finished);
-		j++;
-		if (j == active)
+		make_step(&ants[ant_cnt], rooms, &finished);
+		if (++path_cnt == active)
 		{
-			j = 0;
+			path_cnt = 0;
 			printf("\n");
 		}
 	}
