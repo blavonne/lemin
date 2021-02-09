@@ -1,18 +1,18 @@
 #include "lemin.h"
 
-static t_room	*copy_room(t_room *orig)
+static t_room	*copy_room(t_room **orig)
 {
 	t_room		*clone;
 
 	clone = NULL;
 	clone = create_room();
-	if (!(clone->name = ft_strdup(orig->name)))
+	if (!(clone->name = ft_strdup((*orig)->name)))
 		error(MEMORY);
 	clone->parent = NONE;
-	clone->child = orig->id;
+	clone->child = (*orig)->id;
 	clone->dist = INF;
 	clone->is_orig = 0;
-	clone->orig_id = orig->id;
+	clone->orig_id = (*orig)->id;
 	clone->is_copy = 1;
 	clone->copy_id = NONE;
 	return (clone);
@@ -60,11 +60,12 @@ void			dup_rooms(t_input *input)
 	{
 		if (room[way[i]]->is_orig && room[way[i]]->copy_id == NONE)
 		{
-			dup = copy_room(room[way[i]]);
+			dup = copy_room(&room[way[i]]);
 			dup->id = input->graph->next;
 			room[way[i]]->copy_id = dup->id;
 			if (!(push_in_vector(&input->graph, dup, sizeof(t_room *), PTR)))
 				error(MEMORY);
+			room = input->graph->data;
 			replace_from(input->edge_list, way[i], room[way[i]]->parent,\
 			dup->id);
 			add_edge(&input->edge_list, dup->id, way[i]);

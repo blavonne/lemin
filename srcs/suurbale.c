@@ -34,5 +34,5 @@ void			suurbale(t_input *input)
 	print_path(input);
 	rooms = input->graph->data;
 	paths = input->path_arr->data;
-	ant_management(input, rooms, paths);
+//	ant_management(input, rooms, paths);
 }

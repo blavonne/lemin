@@ -15,6 +15,20 @@ static t_vector	*create_vector(void)
 	return (vector);
 }
 
+static int		ptr_resize(t_vector **v)
+{
+	void			*tmp;
+
+	if (!(tmp = malloc((*v)->size + (VECTOR + 1) * 8)))
+		return (0);
+	ft_memset(tmp, 0, (*v)->size + (VECTOR + 1) * 8);
+	tmp = ft_memcpy(tmp, (*v)->data, (*v)->size);
+	(*v)->size += (VECTOR + 1) * 8;
+	free((*v)->data);
+	(*v)->data = tmp;
+	return (1);
+}
+
 static int		vector_resize(t_vector **v)
 {
 	void			*tmp;
@@ -37,7 +51,7 @@ static int		push_pointer(t_vector **v, void *data, size_t size)
 	if (!(*v))
 		(*v) = create_vector();
 	if (size * (*v)->next + size > (*v)->size)
-		if (!vector_resize(v))
+		if (!ptr_resize(v))
 			return (0);
 	dst = (*v)->data;
 	next = data;

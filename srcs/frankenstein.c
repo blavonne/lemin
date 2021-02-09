@@ -59,33 +59,41 @@ void			find_intersection(t_path *one, t_path *two, int *inter)
 	}
 }
 
-void			path_remaster(t_input *input, size_t i, size_t j, int *inter)
+t_path			*glue_path(t_path *left, t_path *right, int l_to, int r_from)
+{
+	t_path		*zombie;
+
+	zombie = create_path();
+	zombie->len = (l_to + 1) + (right->len - (r_from + 1));
+	if (!(zombie->way = (int *)malloc(sizeof(int) * zombie->len)))
+		error(MEMORY);
+	ft_memcpy(zombie->way, left->way, sizeof(int) * (l_to + 1));
+	ft_memcpy(&zombie->way[l_to + 1], &right->way[r_from + 1],\
+	sizeof(int) * (right->len - (r_from + 1)));
+	return (zombie);
+}
+
+t_path			**path_remaster(t_input *input, size_t i, size_t j, int *inter)
 {
 	t_path		*one;
 	t_path		*two;
 	t_path		**path;
 
-	one = create_path();
+	one = NULL;
+	two = NULL;
 	path = input->path_arr->data;
-	one->len = (inter[0] + 1) + (path[j]->len - (inter[2] + 1));
-	if (!(one->way = (int *)malloc(sizeof(int) * one->len)))
-		error(MEMORY);
-	ft_memcpy(one->way, path[i]->way, sizeof(int) * (inter[0] + 1));
-	ft_memcpy(&one->way[inter[0] + 1], &path[j]->way[inter[2] + 1],\
-	sizeof(int) * (path[j]->len - (inter[2] + 1)));
+	one = glue_path(path[i], path[j], inter[0], inter[2]);
+	one->status = 1;
+	two = glue_path(path[j], path[i], inter[1], inter[3]);
+	two->status = 1;
+	path[i]->status = 0;
+	path[j]->status = 0;
 	if (!(push_in_vector(&input->path_arr, one, sizeof(t_path *), PTR)))
 		error(MEMORY);
-	one->status = 1;
-	two = create_path();
-	two->len = (inter[3] + 1) + (path[i]->len - (inter[1] + 1));
-	if (!(two->way = (int *)malloc(sizeof(int) * two->len)))
-		error(MEMORY);
-	ft_memcpy(two->way, path[j]->way, sizeof(int) * (inter[3] + 1));
-	ft_memcpy(&two->way[inter[3] + 1], &path[i]->way[inter[1] + 1],\
-	sizeof(int) * path[i]->len - (inter[1] + 1));
 	if (!(push_in_vector(&input->path_arr, two, sizeof(t_path *), PTR)))
 		error(MEMORY);
-	two->status = 1;
+	ft_memset(inter, -1, sizeof(int) * 4);
+	return (input->path_arr->data);
 }
 
 void			divide_intersection(t_input *input)
@@ -109,12 +117,7 @@ void			divide_intersection(t_input *input)
 			{
 				find_intersection(path[i], path[j], intersection);
 				if (intersection[0] != -1)
-				{
-					path_remaster(input, i, j, intersection);
-					path[i]->status = 0;
-					path[j]->status = 0;
-					ft_memset(intersection, -1, sizeof(int) * 4);
-				}
+					path = path_remaster(input, i, j, intersection);
 			}
 		}
 	}
