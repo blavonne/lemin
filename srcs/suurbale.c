@@ -36,7 +36,7 @@ void			suurbale(t_input *input)
 	while (i) //найдет все независимые пути
 	{
 		printf("==========suurbale %i============\n", i);
-		print_edge(input);
+//		print_edge(input);
 		reset_dist(input);
 		reset_parent(input);
 		bellman_ford(input);
@@ -44,6 +44,7 @@ void			suurbale(t_input *input)
 			break ;
 		add_path(input);
 		update_graph(input);
+		print_path(input);
 		i++;
 	}
 	frankenstein(input);

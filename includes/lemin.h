@@ -49,6 +49,7 @@ struct			s_path
 {
 	int			*way; // индексы вершин пути от S до E (t_room *graph->data[way[i]])
 	int			len; // длина пути
+	int			real_len; // длина пути без повторов
 	int			id; // индекс самого пути
 	int			status; // 0 off, 1 on
 	t_path		*next; // следующий путь, мб не нужно

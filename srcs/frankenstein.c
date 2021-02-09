@@ -84,7 +84,7 @@ t_path			**path_remaster(t_input *input, size_t i, size_t j, int *inter)
 	path = input->path_arr->data;
 	one = glue_path(path[i], path[j], inter[0], inter[2]);
 	one->status = 1;
-	two = glue_path(path[j], path[i], inter[1], inter[3]);
+	two = glue_path(path[j], path[i], inter[3], inter[1]);
 	two->status = 1;
 	path[i]->status = 0;
 	path[j]->status = 0;
