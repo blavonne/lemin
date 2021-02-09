@@ -16,6 +16,7 @@ SRC = bellman_ford.c\
 	distance_matrix.c\
 	edge_handler.c\
 	error_handler.c\
+	frankenstein.c\
 	is_something.c\
 	link_matrix.c\
 	main.c\
