@@ -22,6 +22,7 @@ SRC = bellman_ford.c\
 	main.c\
 	path_handler.c\
 	print_any.c\
+	print_output.c\
 	read_ants_count.c\
 	read_input.c\
 	read_link.c\
