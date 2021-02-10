@@ -9,16 +9,15 @@ L_LIB = -L $(L_ROOT) -lft
 #FLAGS--------------------------------------------------------------------------
 FLAGS = -Wall -Werror -Wextra -g
 #SOURCES------------------------------------------------------------------------
-SRC = bellman_ford.c\
+SRC = ant_management.c\
+	bellman_ford.c\
 	check_input.c\
+	check_len.c\
 	cleaner.c\
-	dijkstra.c\
-	distance_matrix.c\
 	edge_handler.c\
 	error_handler.c\
 	frankenstein.c\
 	is_something.c\
-	link_matrix.c\
 	main.c\
 	path_handler.c\
 	print_any.c\
@@ -29,10 +28,10 @@ SRC = bellman_ford.c\
 	read_room.c\
 	reset.c\
 	set_command.c\
+	split_paths.c\
 	suurbale.c\
 	update_graph.c\
-	vector_handler.c\
-	ant_management.c
+	vector_handler.c
 OBJ = $(SRC:%.c=%.o)
 #HEADERS------------------------------------------------------------------------
 HEADERS = -I $(INC_DIR) -I $(L_ROOT)
