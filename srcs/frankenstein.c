@@ -1,35 +1,10 @@
 #include "lemin.h"
 
 /*
- * заменит id клонов в пути на id оригиналов
+ * finds intersecting edges and feels int array[4] with their id in path.way
  */
 
-void			remove_repeat(t_input *input)
-{
-	t_path		**path;
-	size_t		i;
-	int			*way;
-	size_t		j;
-	t_room		**r;
-
-	path = input->path_arr->data;
-	r = input->graph->data;
-	i = 0;
-	while (i < input->path_arr->next)
-	{
-		j = 0;
-		way = path[i]->way;
-		while (j + 1 < (size_t)path[i]->len)
-		{
-			if (r[way[j]]->is_copy == 1)
-				way[j] = r[way[j]]->orig_id;
-			j++;
-		}
-		i++;
-	}
-}
-
-void			find_intersection(t_path *one, t_path *two, int *inter)
+static int		find_intersection(t_path *one, t_path *two, int *inter)
 {
 	int		i;
 	int		j;
@@ -53,13 +28,14 @@ void			find_intersection(t_path *one, t_path *two, int *inter)
 					inter[1] = i++;
 					inter[3] = j--;
 				}
-				return ;
+				return (1);
 			}
 		}
 	}
+	return (0);
 }
 
-t_path			*glue_path(t_path *left, t_path *right, int l_to, int r_from)
+static t_path	*glue_path(t_path *left, t_path *right, int l_to, int r_from)
 {
 	t_path		*zombie;
 
@@ -73,58 +49,75 @@ t_path			*glue_path(t_path *left, t_path *right, int l_to, int r_from)
 	return (zombie);
 }
 
-t_path			**path_remaster(t_input *input, size_t i, size_t j, int *inter)
+/*
+ * after check potential output len with and without replace cross paths
+ * makes two independent paths from two paths with intersection
+ * returns 1 if two new paths were made and turns off old ways
+ * returns 0 if remaster is not effective and turns off new way
+ */
+
+static int		path_remaster(t_input *input, size_t i, size_t j, int *inter)
 {
 	t_path		*one;
 	t_path		*two;
 	t_path		**path;
 
-	one = NULL;
-	two = NULL;
-	path = input->path_arr->data;
-	one = glue_path(path[i], path[j], inter[0], inter[2]);
-	one->status = 1;
-	two = glue_path(path[j], path[i], inter[3], inter[1]);
-	two->status = 1;
-	path[i]->status = 0;
-	path[j]->status = 0;
-	if (!(push_in_vector(&input->path_arr, one, sizeof(t_path *), PTR)))
-		error(MEMORY);
-	if (!(push_in_vector(&input->path_arr, two, sizeof(t_path *), PTR)))
-		error(MEMORY);
-	ft_memset(inter, -1, sizeof(int) * 4);
-	return (input->path_arr->data);
+	if (check_len(input, i, j, inter))
+	{
+		path = input->path_arr->data;
+		one = glue_path(path[i], path[j], inter[0], inter[2]);
+		one->status = 1;
+		two = glue_path(path[j], path[i], inter[3], inter[1]);
+		two->status = 1;
+		path[i]->status = 0;
+		path[j]->status = 0;
+		if (!(push_in_vector(&input->path_arr, one, sizeof(t_path *), PTR)))
+			error(MEMORY);
+		if (!(push_in_vector(&input->path_arr, two, sizeof(t_path *), PTR)))
+			error(MEMORY);
+		ft_memset(inter, -1, sizeof(int) * 4);
+		return (1);
+	}
+	else
+	{
+		path[j]->status = 0;
+		return (0);
+	}
 }
 
-void			divide_intersection(t_input *input)
+/*
+ * find intersection between new path and older paths and try to divide
+ * 2 path with intersection
+ * returns 0 if potential output len is more that current and turns off new path
+ * returns 1 if it is less, splits intersecting paths and turns off old ways
+ * with intersection
+ */
+
+int				frankenstein(t_input *input)
 {
 	int		intersection[4];
 	t_path	**path;
 	size_t	i;
 	size_t	j;
-	size_t	len;
 
-	path = input->path_arr->data;
-	len = input->path_arr->next;
-	i = -1;
-	ft_memset(intersection, -1, sizeof(int) * 4);
-	while (++i + 1 < len)
+	if (input->path_arr->next > 1)
 	{
-		j = i;
-		while (path[i]->status == 1 && ++j && j < len)
+		path = input->path_arr->data;
+		ft_memset(intersection, -1, sizeof(int) * 4);
+		j = input->path_arr->next - 1;
+		i = -1;
+		while (++i < j)
 		{
-			if (path[j]->status == 1)
+			if (path[i]->status == 1)
 			{
-				find_intersection(path[i], path[j], intersection);
-				if (intersection[0] != -1)
-					path = path_remaster(input, i, j, intersection);
+				if (find_intersection(path[i], path[j], intersection))
+				{
+					if (!path_remaster(input, i, j, intersection))
+						return (0);
+					path = input->path_arr->data;
+				}
 			}
 		}
 	}
-}
-
-void			frankenstein(t_input *input)
-{
-	remove_repeat(input);
-	divide_intersection(input);
+	return (1);
 }

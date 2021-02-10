@@ -52,28 +52,6 @@ void		print_input(t_input input)
 	print_vector(input.graph);
 }
 
-void			print_matrix_i(int **matrix, int size)
-{
-	int		h;
-	int		w;
-
-	h = 0;
-	if (!matrix)
-		return ;
-	while (h < size)
-	{
-		w = 0;
-		while (w < size)
-		{
-			printf("%2i ", matrix[h][w]);
-			w++;
-		}
-		printf("\n");
-		h++;
-	}
-	printf("\n");
-}
-
 void			print_dist(t_room **room, int size)
 {
 	int		i;
