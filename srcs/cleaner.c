@@ -50,3 +50,4 @@ void		clean_vector(t_vector **v, int type)
 }
 
 //добавить очистку интовой матрицы
+//TODO: нормальная чистка!!!
