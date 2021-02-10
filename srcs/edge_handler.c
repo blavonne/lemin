@@ -12,20 +12,6 @@ t_edge			*create_edge()
 	return (neu);
 }
 
-t_edge			*copy_edge_list(t_edge *src)
-{
-	t_edge	*neu;
-
-	while (src)
-	{
-		neu = create_edge();
-		ft_memcpy(neu, src, sizeof(t_edge));
-		src = src->next;
-	}
-	return (neu);
-}
-
-
 /*
  * установит значение статуса активности
  */
@@ -82,5 +68,30 @@ void			add_edge(t_edge **head, int from, int to)
 		while (ptr->next)
 			ptr = ptr->next;
 		ptr->next = edge;
+	}
+}
+
+/*
+ * начиная с финиша, устанавливает значение -1 в матрице веса между комнатой
+ * и ее родителем (на первой итерации между финишем и предшественницей);
+ * обнуляет связь родитель -> комната,
+ * т.е. было room <-> parent, стало room -> parent
+ * было weight[room][parent] = 1, стало weight[room][parent] = -1
+ * (построение обратного ребра)
+ */
+
+void			reverse_edges(t_input *input)
+{
+	t_room		**room;
+	t_room		*ptr;
+
+	room = input->graph->data;
+	ptr = room[input->end_id];
+	while (ptr->is_start != 1 && ptr->parent != NONE)
+	{
+		set_active(input->edge_list, ptr->parent, ptr->id, 0);
+		set_active(input->edge_list, ptr->id, ptr->parent, 1);
+		set_weight(input->edge_list, ptr->id, ptr->parent, -1);
+		ptr = room[ptr->parent];
 	}
 }

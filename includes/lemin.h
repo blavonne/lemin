@@ -19,7 +19,7 @@
 # define INT		1
 # define PTR		2
 # define HYPHEN		0b0000000000010000
-# define VECTOR		1
+# define VECTOR		100
 # define NONE		-42
 
 # define UNKNOWN	0b0000000000000000
@@ -40,9 +40,9 @@ typedef struct s_edge t_edge;
 
 struct			s_vector
 {
-	void	*data; // данные любого типа
-	size_t	size; // выделенная память
-	size_t	next; // индекс следующего для записи элемента (количество записанных элементов)
+	void		*data; // данные любого типа
+	size_t		size; // выделенная память
+	size_t		next; // индекс следующего для записи элемента (количество записанных элементов)
 };
 
 struct			s_path
@@ -52,6 +52,9 @@ struct			s_path
 	int			real_len; // длина пути без повторов
 	int			id; // индекс самого пути
 	int			status; // 0 off, 1 on
+	int			priority; // приоритет пути (самые короткие имеют 0, остальные отрицательные)
+	int			marked; // учтено при анализе приоритета 1|0
+	int			replace;
 	t_path		*next; // следующий путь, мб не нужно
 };
 
@@ -79,7 +82,6 @@ struct			s_room
 	int			child; // индекс вершины-ребенка
 	int			is_start; // является ли началом
 	int			is_end; // является ли концом
-	int			visited; // флаг посещенности, используется при проверке на дубликаты и в алгоритме Дийкстры
 	t_ant		*ant; // муравей в комнате, не ссылка, потому что - а зачем?
 	double		dist; // расстояние от стартовой комнаты до этой
 	int			coords[2]; // координаты комнаты
@@ -95,9 +97,6 @@ struct			s_room
 struct			s_input
 {
 	t_vector	*graph; //содержит все вершины графа
-	int			**weight; //матрица веса
-	int			**link; // матрица смежностей
-	double		**dist; // матрица расстояний/достижимости
 	int			ants; //количество муравьев
 	int			expected; // валидация
 	int			start_id; // индекс стартовой комнаты в graph (t_room *graph->data[start_id])
@@ -114,44 +113,37 @@ void			check_input(t_input *input);
 
 void			error(int reason);
 int				push_in_vector(t_vector **v, void *data, size_t size, int type);
-void			clean_vector(t_vector **v);
+void			clean_vector(t_vector **v, int type);
 
-void			reset_visited(t_input *input);
 void			reset_parent(t_input *input);
 void			reset_dist(t_input *input);
+void			reset_marked(t_path **path, size_t len);
 void			reverse_edges(t_input *input);
 
 t_room			*create_room(void);
 t_path			*create_path(void);
 t_edge			*create_edge();
-t_edge			*copy_edge_list(t_edge *src);
-int				**create_matrix_i(int size);
-double			**create_matrix_d(size_t size);
-void			feel_matrix_default_i(t_input *input, int **matrix);
 
-void			dijkstra(t_input *input);
 void			bellman_ford(t_input *input);
-void			suurbale(t_input *input);
-void			frankenstein(t_input *input);
+int				suurbale(t_input *input);
+int				frankenstein(t_input *input);
 void			update_graph(t_input *input);
+int				split_paths(t_input *input);
+int				check_len(t_input *input, size_t i, size_t j, int *inter);
 
 void			set_command(char *line, t_input *input);
-void			set_links(t_input *input);
-void			set_dist(t_input *input); //Беллман-Форд для всех комнат
 void			add_path(t_input *input);
-void			set_matrix_default_i(t_input *input, int ***matrix);
 void			add_edge(t_edge **head, int from, int to);
 void			set_active(t_edge *head, int from, int to, int value);
 void			set_weight(t_edge *head, int from, int to, int value);
-void			set_edge(t_room *room, int edge_id, int weight, int active);
-void			replace_edge_end(t_edge *edge_list, int value, int new_value);
+void			set_priority(t_path **path, size_t len);
+void			set_real_len(t_path **path, size_t len);
 
 int				is_comment(char *line);
 int				is_command(char *line);
 int				is_room(char *line);
 int				is_link(char *line);
 
-void			print_matrix_i(int **matrix, int size);
 void			print_path(t_input *input);
 void			print_input(t_input input);
 void			print_vector(t_vector *vector);
@@ -159,6 +151,7 @@ void			print_way(t_room **room, int end);
 void			print_dist(t_room **room, int size);
 void			print_edge(t_input *input);
 
+int				count_paths(t_input *input);
 void			print_output(t_input *input);
 void			ant_management(t_input *input, t_room **rooms, t_path **paths);
 

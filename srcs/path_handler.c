@@ -56,3 +56,50 @@ void			add_path(t_input *input) // нужно создать вектор из �
 		path->status = 1;
 	}
 }
+
+void			set_priority(t_path **path, size_t len)
+{
+	size_t		i;
+	int			min;
+
+	i = 0;
+	if (len)
+	{
+		min = path[0]->real_len;
+		while (++i < len)
+		{
+			if (path[i]->status == 1 && path[i]->real_len < min)
+				min = path[i]->real_len;
+		}
+		i = -1;
+		while (++i < len)
+			if (path[i]->status == 1)
+				path[i]->priority = min - path[i]->real_len;
+	}
+}
+
+/*
+ * evaluates real way len without repeats
+ */
+
+void			set_real_len(t_path **path, size_t len)
+{
+	size_t		i;
+	int			j;
+	int			repeat;
+
+	i = 0;
+	while (i < len)
+	{
+		j = 0;
+		repeat = 0;
+		while (j + 1 < path[i]->len)
+		{
+			if (path[i]->way[j] == path[i]->way[j + 1])
+				repeat++;
+			j++;
+		}
+		path[i]->real_len = path[i]->len - repeat;
+		i++;
+	}
+}

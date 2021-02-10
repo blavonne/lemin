@@ -16,13 +16,8 @@ int			main(int argc, char **argv)
 	read_input(argc, argv, &input);
 	check_input(&input);
 	print_input(input);
-//	set_links(&input);
-//	dijkstra(&input);
-//	bellman_ford(&input);
 	suurbale(&input);
-//	set_dist(&input);
-//	add_path(&input);
 	print_output(&input);
-	clean_vector(&input.graph);
+	clean_vector(&input.graph, ROOM);
 	return 0;
 }
