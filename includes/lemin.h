@@ -160,6 +160,6 @@ void			print_dist(t_room **room, int size);
 void			print_edge(t_input *input);
 
 void			print_output(t_input *input);
-void			ant_management(t_input *input, t_room **rooms, t_path **paths, size_t active);
+void			ant_management(t_input *input, t_room **rooms, t_path **paths);
 
 #endif

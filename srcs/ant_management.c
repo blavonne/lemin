@@ -9,7 +9,7 @@ void		create_ant_arr(t_ant *ants, t_input *input, t_path **paths)
 	path_cnt = 0;
 	while (ant_cnt < input->ants)
 	{
-		ants[ant_cnt].id = ant_cnt;
+		ants[ant_cnt].id = ant_cnt + 1;
 		while (paths[path_cnt]->status == 0)
 			path_cnt++;
 		ants[ant_cnt].path = paths[path_cnt++];
@@ -20,39 +20,30 @@ void		create_ant_arr(t_ant *ants, t_input *input, t_path **paths)
 	}
 }
 
-void	make_step(t_ant *ant, t_room **rooms, int *finished, int ant_cnt)
+void	make_step(t_ant *ant, t_room **rooms, int *finished)
 {
 	int		step_index;
-	int		next_step;
 
 	if (ant->cur_step < ant->path->len)
 	{
 		step_index = ant->path->way[ant->cur_step];
-		next_step = ant->path->way[ant->cur_step + 1];
-		if (rooms[step_index]->ant == NULL)
+		if (rooms[step_index]->ant == NULL || rooms[step_index]->is_end == 1)
 		{
 			printf("L%d-%s ", ant->id, rooms[step_index]->name);
 			rooms[step_index]->ant = ant;
 			if (ant->cur_step - 1 >= 0)
 				rooms[ant->path->way[ant->cur_step - 1]]->ant = NULL;
-			ant->cur_step++;
-			if (ant->id == ant_cnt - 1)
-				printf("\n");
 			if (rooms[step_index]->is_end == 1 && ++(*finished))
 				ant->id = -1;
-		}
-		else
-		{
-			rooms[step_index]->is_end != 1 ? make_step(rooms[step_index]->ant, rooms, finished, ant_cnt) : 0;
-			rooms[step_index]->ant = NULL;
-			make_step(ant, rooms, finished, ant_cnt);
+			if (ant->id != -1)
+				ant->cur_step++;
 		}
 	}
 }
 
-void	ant_management(t_input *input, t_room **rooms, t_path **paths, size_t active)
+void	ant_management(t_input *input, t_room **rooms, t_path **paths)
 {
-	size_t	ant_cnt;
+	int		ant_cnt;
 	size_t	path_cnt;
 	t_ant	ants[input->ants];
 	int		finished;
@@ -63,20 +54,14 @@ void	ant_management(t_input *input, t_room **rooms, t_path **paths, size_t activ
 	create_ant_arr(&ants[0], input, paths);
 	while (finished != input->ants && ++ant_cnt >= 0)
 	{
-		ant_cnt = (ant_cnt == (size_t)input->ants) ? 0 : ant_cnt;
-		if (ants[ant_cnt].id == -1)
-			continue;
-		if (ants[ant_cnt].path->way[ants[ant_cnt].cur_step] == input->end_id)
+		if (rooms[ants[ant_cnt].path->way[ants[ant_cnt].cur_step]]->ant == NULL \
+		|| rooms[ants[ant_cnt].path->way[ants[ant_cnt].cur_step]]->is_end == 1)
+			if (ants[ant_cnt].id != -1)
+				make_step(&ants[ant_cnt], rooms, &finished);
+		if (ant_cnt == input->ants - 1)
 		{
-			make_step(&ants[ant_cnt], rooms, &finished, input->ants);
-			continue ;
-		}
-		make_step(&ants[ant_cnt], rooms, &finished, input->ants);
-		if (++path_cnt == active)
-		{
-			path_cnt = 0;
-			if (ant_cnt + 1 < (size_t)input->ants && rooms[ants[ant_cnt + 1].path->way[ants[ant_cnt + 1].cur_step]]->ant != NULL)
-				printf("\n");
+			ant_cnt = -1;
+			printf("\n");
 		}
 	}
 }
