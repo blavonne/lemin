@@ -16,8 +16,7 @@ int			main(int argc, char **argv)
 	read_input(argc, argv, &input);
 	check_input(&input);
 	print_input(input);
-	if (!(suurbale(&input)))
-		error(NOWAY);
+	suurbale(&input);
 	print_output(&input);
 	clean_vector(&input.graph, ROOM);
 	return 0;
