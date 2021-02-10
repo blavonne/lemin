@@ -80,6 +80,7 @@ static int		path_remaster(t_input *input, size_t i, size_t j, int *inter)
 	}
 	else
 	{
+		path = input->path_arr->data;
 		path[j]->status = 0;
 		return (0);
 	}

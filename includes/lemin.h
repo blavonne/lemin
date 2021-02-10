@@ -19,7 +19,7 @@
 # define INT		1
 # define PTR		2
 # define HYPHEN		0b0000000000010000
-# define VECTOR		1
+# define VECTOR		100
 # define NONE		-42
 
 # define UNKNOWN	0b0000000000000000
