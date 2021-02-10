@@ -16,7 +16,7 @@ t_vector		*set_ants_per_room(int paths, int ants)
 		push_in_vector(&neu, &mid, sizeof(int), INT);
 	arr = neu->data;
 	i = -1;
-	while (res != ants && ++i < neu->next)
+	while (res != ants && (size_t)++i < neu->next)
 	{
 		arr[i]++;
 		res++;

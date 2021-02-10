@@ -55,6 +55,7 @@ struct			s_path
 	int			priority; // приоритет пути (самые короткие имеют 0, остальные отрицательные)
 	int			marked; // учтено при анализе приоритета 1|0
 	int			replace;
+	float		ants_num;
 	t_path		*next; // следующий путь, мб не нужно
 };
 
@@ -153,6 +154,6 @@ void			print_edge(t_input *input);
 
 int				count_paths(t_input *input);
 void			print_output(t_input *input);
-void			ant_management(t_input *input, t_room **rooms, t_path **paths);
+void			ant_management(t_input *input, t_room **rooms, t_path **paths, int active);
 
 #endif

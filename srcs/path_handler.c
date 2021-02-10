@@ -54,6 +54,7 @@ void			add_path(t_input *input) // нужно создать вектор из �
 			error(MEMORY);
 		path->id = (int)input->path_arr->next - 1;
 		path->status = 1;
+		path->ants_num = 0;
 	}
 }
 

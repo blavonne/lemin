@@ -43,6 +43,7 @@ int				suurbale(t_input *input)
 		print_path(input);
 		printf("\n");
 		suurbale(input);
+		return (0);
 	}
 	else
 		return (1);

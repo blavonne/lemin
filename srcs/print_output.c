@@ -22,8 +22,10 @@ void			print_output(t_input *input)
 {
 	t_room	**rooms;
 	t_path	**paths;
+	int		i;
 
 	rooms = input->graph->data;
 	paths = input->path_arr->data;
-	ant_management(input, rooms, paths);
+	i = count_paths(input);
+	ant_management(input, rooms, paths, i);
 }
