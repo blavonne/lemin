@@ -1,5 +1,27 @@
 #include "lemin.h"
 
+static void	clean_path(t_vector **v)
+{
+	t_path	**path;
+	size_t	i;
+
+	i = 0;
+	if (*v)
+	{
+		path = (*v)->data;
+		while (i < (*v)->next)
+		{
+			free(path[i]);
+			path[i] = NULL;
+			i++;
+		}
+		free((*v)->data);
+		(*v)->data = NULL;
+		free(*v);
+		(*v) = NULL;
+	}
+}
+
 static void	clean_room(t_vector **v)
 {
 	t_room	**room;
@@ -47,7 +69,23 @@ void		clean_vector(t_vector **v, int type)
 		clean_room(v);
 	else if (type == INT)
 		clean_int(v);
+	else if (type == PATH)
+		clean_path(v);
 }
 
+void		clean_edge(t_edge **edge)
+{
+	t_edge	*list;
+	t_edge	*next_list;
+
+	list = *edge;
+	while (list)
+	{
+		next_list = list->next;
+		free(list);
+		list = next_list;
+	}
+	*edge = NULL;
+}
 //добавить очистку интовой матрицы
 //TODO: нормальная чистка!!!
