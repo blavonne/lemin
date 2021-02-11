@@ -3,3 +3,4 @@
 *.o
 *.d
 cmake-build-debug
+lem-in

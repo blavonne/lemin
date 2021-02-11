@@ -112,23 +112,31 @@ void	ant_management(t_input *input, t_room **rooms, t_path **paths, int active)
 	t_ant	ants[input->ants];
 	int		finished;
 	int		str;
+	int		flag;
 
 	ant_cnt = -1;
 	finished = 0;
 	str = 0;
+	flag = 0;
 	create_ant_arr(&ants[0], input, paths, active);
 	while (finished != input->ants && ++ant_cnt >= 0)
 	{
 		if (rooms[ants[ant_cnt].path->way[ants[ant_cnt].cur_step]]->ant == NULL \
 		|| rooms[ants[ant_cnt].path->way[ants[ant_cnt].cur_step]]->is_end == 1)
 			if (ants[ant_cnt].id != -1)
+			{
 				make_step(&ants[ant_cnt], rooms, &finished);
+				flag = 0;
+			}
 		if (ant_cnt == input->ants - 1)
 		{
 			ant_cnt = -1;
 			printf("\n");
+			flag++;
 			str++;
 		}
+		if (flag > 1)
+			break ;
 	}
-	printf("Total - %d lines\n", str);
+	printf("\nTotal - %d lines\n", str);
 }
