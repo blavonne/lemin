@@ -22,17 +22,19 @@ static int		check_way_to_end(t_input *input)
 
 int				suurbale(t_input *input)
 {
+	t_path		*path;
+
 //	print_edge(input);
 	reset_dist(input);
 	reset_parent(input);
 	bellman_ford(input);
 	if (!check_way_to_end(input))
 	{
-		if (input->path_arr == NULL)
+		if (input->path_arr == NULL) //проверить, работает ли
 			error(NOWAY);
 		return (1);
 	}
-	add_path(input);
+	path = collect_path(input);
 	update_graph(input);
 	printf("===========suurbale=============\n");
 	print_path(input);

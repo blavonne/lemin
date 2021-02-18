@@ -111,6 +111,7 @@ void			read_ants_count(char *line, t_input *input);
 void			read_room(char *line, t_input *input);
 void			read_link(char *line, t_input *input);
 void			check_input(t_input *input);
+int				check_path(t_input *input, t_path *neu);
 
 void			error(int reason);
 int				push_in_vector(t_vector **v, void *data, size_t size, int type);
@@ -133,12 +134,15 @@ int				split_paths(t_input *input);
 int				check_len(t_input *input, size_t i, size_t j, int *inter);
 
 void			set_command(char *line, t_input *input);
-void			add_path(t_input *input);
+t_path			*collect_path(t_input *input);
+void			add_path(t_input *input, t_path *neu);
 void			add_edge(t_edge **head, int from, int to);
 void			set_active(t_edge *head, int from, int to, int value);
 void			set_weight(t_edge *head, int from, int to, int value);
 void			set_priority(t_path **path, size_t len);
-void			set_real_len(t_path **path, size_t len);
+void			set_r_len_all(t_path **path, size_t len);
+t_vector		*set_ants_per_room(int paths, int ants);
+int				calc_output(t_input *input, t_vector *ants, int replace);
 
 int				is_comment(char *line);
 int				is_command(char *line);
