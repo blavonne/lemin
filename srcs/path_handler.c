@@ -27,17 +27,19 @@ int				set_path_len(t_input *input)
 	return (len);
 }
 
-void			add_path(t_input *input) // нужно создать вектор из структур s_path
+t_path			*collect_path(t_input *input) // нужно создать вектор из структур s_path
 {
 	t_path		*path;
 	t_room		**room;
 	t_room		*ptr;
 	int			i;
+	int			len;
 
-	path = create_path();
-	path->len = set_path_len(input);
-	if (path->len)
+	len = set_path_len(input);
+	if (len)
 	{
+		path = create_path();
+		path->len = len;
 		if (!(path->way = (int *)malloc(sizeof(int) * path->len)))
 			error(MEMORY);
 		room = input->graph->data;
@@ -49,13 +51,17 @@ void			add_path(t_input *input) // нужно создать вектор из �
 			ptr = room[ptr->parent];
 			i--;
 		}
-		if (!(push_in_vector(&input->path_arr, (void *)path, sizeof(t_path *),\
-		PTR)))
-			error(MEMORY);
-		path->id = (int)input->path_arr->next - 1;
-		path->status = 1;
-		path->ants_num = 0;
+		return (path);
 	}
+	return (NULL);
+}
+
+void			add_path(t_input *input, t_path *neu)
+{
+	if (!(push_in_vector(&input->path_arr, (void *)neu, sizeof(t_path *),\
+		PTR)))
+		error(MEMORY);
+	neu->id = (int)input->path_arr->next - 1;
 }
 
 void			set_priority(t_path **path, size_t len)
@@ -83,7 +89,7 @@ void			set_priority(t_path **path, size_t len)
  * evaluates real way len without repeats
  */
 
-void			set_real_len(t_path **path, size_t len)
+void			set_r_len_all(t_path **path, size_t len)
 {
 	size_t		i;
 	int			j;
@@ -94,13 +100,16 @@ void			set_real_len(t_path **path, size_t len)
 	{
 		j = 0;
 		repeat = 0;
-		while (j + 1 < path[i]->len)
+		if (path[i]->status == 1 && path[i]->real_len == 0)
 		{
-			if (path[i]->way[j] == path[i]->way[j + 1])
-				repeat++;
-			j++;
+			while (j + 1 < path[i]->len)
+			{
+				if (path[i]->way[j] == path[i]->way[j + 1])
+					repeat++;
+				j++;
+			}
+			path[i]->real_len = path[i]->len - repeat;
+			i++;
 		}
-		path[i]->real_len = path[i]->len - repeat;
-		i++;
 	}
 }

@@ -113,7 +113,7 @@ int				check_len(t_input *input, size_t i, size_t j, int *inter)
 	ants_per_room = NULL;
 	path[i]->replace = (inter[0] + 1) + (path[j]->len - (inter[2] + 1));
 	path[j]->replace = (inter[3] + 1) + (path[i]->len - (inter[1] + 1));
-	set_real_len(path, input->path_arr->next);
+	set_r_len_all(path, input->path_arr->next);
 	set_priority(path, input->path_arr->next);
 	paths_count = count_paths(input);
 	ants_per_room = set_ants_per_room(paths_count, input->ants);
