@@ -19,5 +19,7 @@ int			main(int argc, char **argv)
 	suurbale(&input);
 	print_output(&input);
 	clean_vector(&input.graph, ROOM);
+	clean_vector(&input.path_arr, PATH);
+	clean_edge(&input.edge_list);
 	return 0;
 }

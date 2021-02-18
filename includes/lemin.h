@@ -26,6 +26,8 @@
 # define ES_DUPS	0b0000000000000001
 # define ROOM		0b0000000000000010
 # define LINK		0b0000000000000100
+# define PATH		0b0000000000001000
+
 
 # define INF		1.0 / 0.0
 
@@ -137,6 +139,7 @@ void			set_command(char *line, t_input *input);
 t_path			*collect_path(t_input *input);
 void			add_path(t_input *input, t_path *neu);
 void			add_edge(t_edge **head, int from, int to);
+void			clean_edge(t_edge **edge);
 void			set_active(t_edge *head, int from, int to, int value);
 void			set_weight(t_edge *head, int from, int to, int value);
 void			set_priority(t_path **path, size_t len);
